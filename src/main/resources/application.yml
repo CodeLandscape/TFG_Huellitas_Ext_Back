@@ -1,0 +1,190 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /comun-api
+
+# ===============================
+# = JWT
+# ===============================
+jwt:
+  header: Authorization
+  prefijo: Bearer
+  secret: clave para encriptar jwt!
+  expiration: 18000
+  route:
+    authentication:
+      path: /login
+
+# Configuracion para springdoc
+# path: Pagina personalizable para acceder a swagger
+# supported-submit-methods: Propiedad para no incluir el try out dende de cada endpoint
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: ${OPENAPI_DOCS_ENABLED:true}
+    supported-submit-methods: []
+
+spring:
+  application:
+    # Name used to register the app in the discovery server, aka the app ID.
+    # Must match the K8s service name
+    name: base-api
+    # INSTANCE_ID is an env var holding the K8s pod ID
+    instance-id: ${INSTANCE_ID:${spring.application.name}}
+
+  jackson:
+    serialization:
+      indent-output: true
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  data:
+    rest:
+      default-media-type: application/json
+  profiles:
+    active: dev
+
+  jmx:
+    enabled: false # necesario para no obtener el siguiente error: Unable to register MBean [org.apache.tomcat.dbcp.dbcp2.BasicDataSource
+
+# ===============================
+# = JPA / HIBERNATE
+# ===============================
+# Show or not log for each sql query
+  jpa:
+
+# PVN-16: WARN remove: spring.jpa.open-in-view is enabled by default.
+# Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to
+# disable this warning
+    open-in-view: false
+    show-sql: true
+# Hibernate ddl auto (create, create-drop, update): with "create-drop" the database
+# schema will be automatically created afresh for every start of application
+    hibernate:
+      ddl-auto: none
+# Naming strategy
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+# Allows Hibernate to generate SQL optimized for a particular DBMS
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  servlet:
+    multipart:
+    max-file-size: 50MB
+  mvc:
+    async:
+      request-timeout: 300000
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+---
+
+# =================================================
+# = LOCAL, for testing without real connection to database, with in memory H2 database
+# =================================================
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  # ===============================
+  # = DATA SOURCE (PostgreSQL Dialect, you can change to your necessary dialect)
+  # ===============================
+  # Set here configurations for the database connection
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.h2.Driver
+    jdbc-url: jdbc:h2:mem:test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: test
+    password:
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+  h2:
+    console:
+      # disable spring boot built-in h2-console since we start it manually with correct configuration
+      enabled: false
+
+
+---
+
+# =================================================
+# = DEV
+# =================================================
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    jdbcUrl: jdbc:mysql://localhost:3306/db_facturacion
+    username: USERNAME
+    password: PASSWORD
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # Keep the connection alive if idle for a long time (needed in production)
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    minimum-idle: 1
+    maximum-pool-size: 1
+
+
+
+
+---
+
+# =================================================
+# = DEMO
+# =================================================
+
+spring:
+  config:
+    activate:
+      on-profile: demo
+
+  # ===============================
+  # = DATA SOURCE
+  # ===============================
+  # Set here configurations for the database connection
+  datasource:
+    jdbcUrl: url
+    username: username
+    password: password
+    driver-class-name: oracle.jdbc.OracleDriver
+    # Keep the connection alive if idle for a long time (needed in production)
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    minimum-idle: 1
+    maximum-pool-size: 1
+
+
+
+
+---
+
+# =================================================
+# = PROD
+# =================================================
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    jdbcUrl: url
+    username: username
+    password: password
+    driver-class-name: oracle.jdbc.OracleDriver
+    # Keep the connection alive if idle for a long time (needed in production)
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    minimum-idle: 1
+    maximum-pool-size: 1
+
+
+
