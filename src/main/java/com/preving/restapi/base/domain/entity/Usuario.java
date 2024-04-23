@@ -22,9 +22,8 @@ public class Usuario {
     private Provincia idProvincia;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_Rol", nullable = false)
-    private Rol idRol;
+    @Column(name = "id_Rol", nullable = false)
+    private Byte idRol;
 
     @Size(max = 60)
     @NotNull
@@ -45,5 +44,9 @@ public class Usuario {
     @NotNull
     @Column(name = "direccion", nullable = false, length = 100)
     private String direccion;
+
+    @NotNull
+    @Column(name = "activo", nullable = false)
+    private Boolean activo = false;
 
 }

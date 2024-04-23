@@ -31,8 +31,4 @@ public class Asociacion {
     @Column(name = "cif", nullable = false, length = 9)
     private String cif;
 
-    @NotNull
-    @Column(name = "activo", nullable = false)
-    private Boolean activo = false;
-
 }
