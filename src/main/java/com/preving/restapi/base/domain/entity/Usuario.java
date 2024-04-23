@@ -21,6 +21,11 @@ public class Usuario {
     @JoinColumn(name = "id_Provincia", nullable = false)
     private Provincia idProvincia;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_Rol", nullable = false)
+    private Rol idRol;
+
     @Size(max = 60)
     @NotNull
     @Column(name = "correo", nullable = false, length = 60)
