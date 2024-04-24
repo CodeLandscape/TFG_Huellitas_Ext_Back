@@ -54,4 +54,12 @@ public class Usuario {
     @Column(name = "activo", nullable = false)
     private Boolean activo = false;
 
+    public void desactivar() {
+        this.activo = false;
+    }
+
+    public void activar() {
+        this.activo = true;
+    }
+
 }
