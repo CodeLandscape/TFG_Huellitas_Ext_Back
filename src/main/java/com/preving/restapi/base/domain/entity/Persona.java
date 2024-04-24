@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 @Table(name = "persona")
 public class Persona {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer id;
 

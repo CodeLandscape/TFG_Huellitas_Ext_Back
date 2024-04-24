@@ -12,6 +12,16 @@ public enum RestApiErrorCode {
 
     // Definir nuevos codigos de error aqui
 
+    USER_MANDATORY(1003, "El usuario es obligatorio"),
+    PROVINCE_MANDATORY(1004, "La provincia es obligatoria"),
+    PROVINCE_NOT_FOUND(1005, "La provincia no se encuentra en el sistema"),
+    REQUEST_NOT_FOUND(1006, "La solicitud no se encuentra en el sistema"),
+
+    CANDIDATE_NOT_FOUND(1007, "El candidato no se encuentra en el sistema"),
+
+    WRONG_FIELDS(1008, "Revise los datos del usuario. Validación de datos incorrecta"),
+
+    USER_ALREADY_EXISTS(1009, "El usuario ya existe en el sistema"),
 
     // códigos >= 9000 para excepciones no controladas y otros errores
     EXCEPCION_NO_CONTROLADA(9000, "Excepción no controlada por el sistema"),

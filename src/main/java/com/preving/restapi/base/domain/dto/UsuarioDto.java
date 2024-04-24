@@ -2,6 +2,7 @@ package com.preving.restapi.base.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.preving.restapi.base.domain.entity.Provincia;
+import com.preving.restapi.base.domain.entity.Rol;
 import com.preving.restapi.base.domain.entity.Usuario;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class UsuarioDto implements Serializable {
     @NotNull
     Provincia idProvincia;
     @NotNull
-    Byte idRol;
+    Rol idRol;
     @NotNull
     @Size(max = 60)
     String correo;

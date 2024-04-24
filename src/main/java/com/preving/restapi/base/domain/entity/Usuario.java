@@ -1,6 +1,9 @@
 package com.preving.restapi.base.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,21 +12,26 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "usuario")
 public class Usuario {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_Provincia", nullable = false)
     private Provincia idProvincia;
 
     @NotNull
-    @Column(name = "id_Rol", nullable = false)
-    private Byte idRol;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_Rol", nullable = false)
+    private Rol idRol;
 
     @Size(max = 60)
     @NotNull

@@ -9,13 +9,12 @@ server:
 jwt:
   header: Authorization
   prefijo: Bearer
-  secret: secret
-  expiration: 36000
+  secret: clave para encriptar jwt!
+  expiration: 18000
   route:
     authentication:
       path: /login
 
-# ===============================
 # Configuracion para springdoc
 # path: Pagina personalizable para acceder a swagger
 # supported-submit-methods: Propiedad para no incluir el try out dende de cada endpoint
@@ -27,7 +26,6 @@ springdoc:
 
 spring:
   application:
-
     # Name used to register the app in the discovery server, aka the app ID.
     # Must match the K8s service name
     name: base-api
@@ -61,7 +59,7 @@ spring:
     # Hibernate ddl auto (create, create-drop, update): with "create-drop" the database
     # schema will be automatically created afresh for every start of application
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
       # Naming strategy
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
@@ -72,15 +70,13 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
   servlet:
     multipart:
-    max-file-size: 50MB
+      max-file-size: 50MB
+      max-request-size: 50MB
   mvc:
     async:
       request-timeout: 300000
     pathmatch:
       matching-strategy: ant_path_matcher
-  security:
-    user:
-      password: none
 
 ---
 
