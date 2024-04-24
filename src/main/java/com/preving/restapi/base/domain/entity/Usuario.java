@@ -22,8 +22,9 @@ public class Usuario {
     private Provincia idProvincia;
 
     @NotNull
-    @Column(name = "id_Rol", nullable = false)
-    private Byte idRol;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_Rol", nullable = false)
+    private Rol idRol;
 
     @Size(max = 60)
     @NotNull
