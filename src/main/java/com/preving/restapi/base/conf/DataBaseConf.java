@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @EnableJpaRepositories(
         entityManagerFactoryRef = "entityManagerFactory",
-        basePackages = {"com.preving.restapi.base.dao"})
+        basePackages = {"com.preving.restapi.base.domain.dao"})
 public class DataBaseConf {
 
     @Primary
