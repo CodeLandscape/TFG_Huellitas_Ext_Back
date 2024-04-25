@@ -21,6 +21,10 @@ public class Usuario {
     @JoinColumn(name = "id_Provincia", nullable = false)
     private Provincia idProvincia;
 
+    @NotNull
+    @Column(name = "id_Rol", nullable = false)
+    private Byte idRol;
+
     @Size(max = 60)
     @NotNull
     @Column(name = "correo", nullable = false, length = 60)
@@ -40,5 +44,17 @@ public class Usuario {
     @NotNull
     @Column(name = "direccion", nullable = false, length = 100)
     private String direccion;
+
+    @NotNull
+    @Column(name = "activo", nullable = false)
+    private Boolean activo = false;
+
+    public void desactivar() {
+        this.activo = false;
+    }
+
+    public void activar() {
+        this.activo = true;
+    }
 
 }

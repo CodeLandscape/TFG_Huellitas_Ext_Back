@@ -6,9 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200"})
-@RequestMapping(value = "/asociacion")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/asociacion")
 public class AsociacionController {
 
     @Autowired
@@ -22,6 +23,18 @@ public class AsociacionController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+
+    public AsociacionController(AsociacionService asociacionService) {
+        this.asociacionService = asociacionService;
+    }
+
+    @PutMapping("/baja/{id}")
+    public ResponseEntity<Void> desactivarAsociacion(@PathVariable Integer id) {
+        asociacionService.desactivarAsociacion(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

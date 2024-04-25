@@ -13,8 +13,8 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Entity
-@Table(name = "provincia")
-public class Provincia {
+@Table(name = "rol")
+public class Rol {
     @Id
     @Column(name = "id", nullable = false)
     private Byte id;

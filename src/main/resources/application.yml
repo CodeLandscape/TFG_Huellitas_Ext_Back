@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /comun-api
+    context-path: /api-backend
 
 # ===============================
 # = JWT
@@ -9,12 +9,13 @@ server:
 jwt:
   header: Authorization
   prefijo: Bearer
-  secret: clave para encriptar jwt!
-  expiration: 18000
+  secret: secret
+  expiration: 36000
   route:
     authentication:
       path: /login
 
+# ===============================
 # Configuracion para springdoc
 # path: Pagina personalizable para acceder a swagger
 # supported-submit-methods: Propiedad para no incluir el try out dende de cada endpoint
@@ -26,6 +27,7 @@ springdoc:
 
 spring:
   application:
+
     # Name used to register the app in the discovery server, aka the app ID.
     # Must match the K8s service name
     name: base-api
@@ -45,26 +47,26 @@ spring:
   jmx:
     enabled: false # necesario para no obtener el siguiente error: Unable to register MBean [org.apache.tomcat.dbcp.dbcp2.BasicDataSource
 
-# ===============================
-# = JPA / HIBERNATE
-# ===============================
-# Show or not log for each sql query
+  # ===============================
+  # = JPA / HIBERNATE
+  # ===============================
+  # Show or not log for each sql query
   jpa:
 
-# PVN-16: WARN remove: spring.jpa.open-in-view is enabled by default.
-# Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to
-# disable this warning
+    # PVN-16: WARN remove: spring.jpa.open-in-view is enabled by default.
+    # Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to
+    # disable this warning
     open-in-view: false
     show-sql: true
-# Hibernate ddl auto (create, create-drop, update): with "create-drop" the database
-# schema will be automatically created afresh for every start of application
+    # Hibernate ddl auto (create, create-drop, update): with "create-drop" the database
+    # schema will be automatically created afresh for every start of application
     hibernate:
       ddl-auto: none
-# Naming strategy
+      # Naming strategy
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-# Allows Hibernate to generate SQL optimized for a particular DBMS
+    # Allows Hibernate to generate SQL optimized for a particular DBMS
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -76,6 +78,9 @@ spring:
       request-timeout: 300000
     pathmatch:
       matching-strategy: ant_path_matcher
+  security:
+    user:
+      password: none
 
 ---
 

@@ -50,4 +50,20 @@ public class UsuarioServiceImp implements UsuarioService{
             throw new IllegalArgumentException("La provincia no existe");
         }
     }
+
+    @Override
+    @Transactional
+    public void desactivarUsuario(Integer id) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        usuario.desactivar();
+        usuarioRepository.save(usuario);
+    }
+
+    @Override
+    @Transactional
+    public void activarUsuario(Integer id) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        usuario.activar();
+        usuarioRepository.save(usuario);
+    }
 }

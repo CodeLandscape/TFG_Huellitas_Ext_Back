@@ -24,4 +24,21 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
+    @PutMapping("baja/{id}")
+    public ResponseEntity<Void> desactivarUsuario(@PathVariable Integer id) {
+        usuarioService.desactivarUsuario(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("alta/{id}")
+    public ResponseEntity<Void> activarUsuario(@PathVariable Integer id) {
+        usuarioService.activarUsuario(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

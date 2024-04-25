@@ -23,4 +23,12 @@ public class AsociacionServiceImp implements AsociacionService {
         }
         return null;
     }
+
+    @Override
+    @Transactional
+    public void desactivarAsociacion(Integer id) {
+        Asociacion asociacion = asociacionRepository.findById(id).orElseThrow(() -> new RuntimeException("Asociacion no encontrada"));
+        asociacion.getIdUsuario().desactivar();
+        asociacionRepository.save(asociacion);
+    }
 }
