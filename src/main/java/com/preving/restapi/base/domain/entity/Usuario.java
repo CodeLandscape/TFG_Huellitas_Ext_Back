@@ -22,8 +22,9 @@ public class Usuario {
     private Provincia idProvincia;
 
     @NotNull
-    @Column(name = "id_Rol", nullable = false)
-    private Byte idRol;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_Rol", nullable = false)
+    private Rol idRol;
 
     @Size(max = 60)
     @NotNull
@@ -45,9 +46,15 @@ public class Usuario {
     @Column(name = "direccion", nullable = false, length = 100)
     private String direccion;
 
+    @Size(max = 9)
+    @NotNull
+    @Column(name = "tlf", nullable = false, length = 9)
+    private String tlf;
+
     @NotNull
     @Column(name = "activo", nullable = false)
     private Boolean activo = false;
+
 
     public void desactivar() {
         this.activo = false;
