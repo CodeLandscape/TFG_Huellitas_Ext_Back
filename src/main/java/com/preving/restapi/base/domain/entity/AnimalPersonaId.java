@@ -6,6 +6,8 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,6 +18,7 @@ import java.util.Objects;
 public class AnimalPersonaId implements Serializable {
     private static final long serialVersionUID = -3506650880092598253L;
     @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Persona", nullable = false)
     private Integer idPersona;
 

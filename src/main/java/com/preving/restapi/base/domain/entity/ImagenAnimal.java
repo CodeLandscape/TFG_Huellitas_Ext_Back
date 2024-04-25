@@ -14,6 +14,7 @@ import java.time.Instant;
 @Table(name = "imagen_animal")
 public class ImagenAnimal {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 

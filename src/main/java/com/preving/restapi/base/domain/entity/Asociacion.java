@@ -13,11 +13,12 @@ import javax.validation.constraints.Size;
 @Table(name = "asociacion")
 public class Asociacion {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_Usuario", nullable = false)
     private Usuario idUsuario;
 
