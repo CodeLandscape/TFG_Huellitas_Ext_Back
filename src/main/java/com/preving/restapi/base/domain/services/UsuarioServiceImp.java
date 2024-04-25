@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioServiceImp implements UsuarioService{
@@ -65,5 +67,12 @@ public class UsuarioServiceImp implements UsuarioService{
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         usuario.activar();
         usuarioRepository.save(usuario);
+    }
+
+    //listar a todos los usuarios
+    @Override
+    @Transactional
+    public List<UsuarioDto> findAll() {
+        return usuarioRepository.findAll().stream().map(UsuarioDto::new).collect(Collectors.toList());
     }
 }

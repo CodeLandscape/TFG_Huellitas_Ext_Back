@@ -41,4 +41,15 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
+    //listar a todos los usuarios
+    @GetMapping(value = "/all")
+    public ResponseEntity<?> findAll() {
+        try {
+            return new ResponseEntity<>(usuarioService.findAll(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
