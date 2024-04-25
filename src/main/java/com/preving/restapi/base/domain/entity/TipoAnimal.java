@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Table(name = "tipo_animal")
 public class TipoAnimal {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 

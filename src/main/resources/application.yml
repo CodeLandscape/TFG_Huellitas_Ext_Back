@@ -126,12 +126,14 @@ spring:
     jdbcUrl: jdbc:mysql://localhost:3306/huellitas_extremenas
     username: USERNAME
     password: PASSWORD
+    hikari:
+      connection-timeout: 30000
     driver-class-name: com.mysql.cj.jdbc.Driver
     # Keep the connection alive if idle for a long time (needed in production)
     testWhileIdle: true
     validationQuery: SELECT 1
     minimum-idle: 1
-    maximum-pool-size: 1
+    maximum-pool-size: 10
 
 
 
@@ -160,7 +162,7 @@ spring:
     testWhileIdle: true
     validationQuery: SELECT 1
     minimum-idle: 1
-    maximum-pool-size: 1
+    maximum-pool-size: 10
 
 
 
@@ -185,7 +187,7 @@ spring:
     testWhileIdle: true
     validationQuery: SELECT 1
     minimum-idle: 1
-    maximum-pool-size: 1
+    maximum-pool-size: 10
 
 
 

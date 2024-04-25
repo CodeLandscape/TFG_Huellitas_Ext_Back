@@ -14,7 +14,7 @@ import java.time.Instant;
 @Table(name = "animal")
 public class Animal {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 

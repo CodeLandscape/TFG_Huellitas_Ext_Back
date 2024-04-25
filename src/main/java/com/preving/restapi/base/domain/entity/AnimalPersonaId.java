@@ -18,7 +18,7 @@ import java.util.Objects;
 public class AnimalPersonaId implements Serializable {
     private static final long serialVersionUID = -3506650880092598253L;
     @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Persona", nullable = false)
     private Integer idPersona;
 

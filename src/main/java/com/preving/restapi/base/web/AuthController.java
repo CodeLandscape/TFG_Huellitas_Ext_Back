@@ -20,7 +20,7 @@ public class AuthController {
     @PostMapping("/register-user")
     public ResponseEntity<?> registerUser(@RequestBody PersonaDto persona) {
         try{
-            return ResponseEntity.ok(authService.addPerson(persona));
+            return new ResponseEntity<>(authService.addPerson(persona), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -29,7 +29,7 @@ public class AuthController {
     @PostMapping("/register-admin")
     public ResponseEntity<?> registerAdmin(@RequestBody AdminDto admin) {
         try{
-            return ResponseEntity.ok(authService.addAdmin(admin));
+            return new ResponseEntity<>(authService.addAdmin(admin), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -38,7 +38,7 @@ public class AuthController {
     @PostMapping("/register-association")
     public ResponseEntity<?> registerAssociation(@RequestBody AsociacionDto asociacion) {
         try{
-            return ResponseEntity.ok(authService.addAsociacion(asociacion));
+            return new ResponseEntity<>(authService.addAsociacion(asociacion), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
