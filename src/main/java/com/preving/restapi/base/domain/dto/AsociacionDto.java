@@ -1,6 +1,7 @@
 package com.preving.restapi.base.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.preving.restapi.base.domain.entity.Asociacion;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,9 @@ public class AsociacionDto {
     String nombre;
 
     @NotNull
+    UsuarioDto usuario;
+
+    @NotNull
     String correo;
     @NotNull
     String password;
@@ -33,4 +37,20 @@ public class AsociacionDto {
     @NotNull
     @Size(max = 9)
     String cif;
+
+    public AsociacionDto(Asociacion asociacion) {
+        this.id = asociacion.getId();
+        this.usuario = new UsuarioDto(asociacion.getIdUsuario());
+        this.nombre = asociacion.getNombre();
+        this.cif = asociacion.getCif();
+    }
+
+    public Asociacion toEntity() {
+        Asociacion asociacion = new Asociacion();
+        asociacion.setId(this.getId());
+        asociacion.setIdUsuario(this.getUsuario().toEntity());
+        asociacion.setNombre(this.getNombre());
+        asociacion.setCif(this.getCif());
+        return asociacion;
+    }
 }

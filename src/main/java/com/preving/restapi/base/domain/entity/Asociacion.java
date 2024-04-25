@@ -18,7 +18,7 @@ public class Asociacion {
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_Usuario", nullable = false)
     private Usuario idUsuario;
 
