@@ -62,7 +62,7 @@ public class AuthServiceImp implements AuthService {
 
         usuario.setCorreo(asociacionDto.getCorreo());
         usuario.setDireccion(asociacionDto.getDireccion());
-        usuario.setActivo(true);
+        usuario.setActivo(false); // Es false porque tiene que validarse por un administrador.
         usuario.setTlf(asociacionDto.getTlf());
         usuario.setIdRol(rolRepository.findByNombre("ASOCIACION"));
         usuario.setPassword(asociacionDto.getPassword());
