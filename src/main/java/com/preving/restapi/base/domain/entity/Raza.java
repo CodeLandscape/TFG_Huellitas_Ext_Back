@@ -23,7 +23,7 @@ public class Raza {
     private String nombre;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_Tipo_Animal", nullable = false)
     private TipoAnimal idTipoAnimal;
 
