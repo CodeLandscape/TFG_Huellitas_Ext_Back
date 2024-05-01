@@ -29,4 +29,9 @@ public class TipoAnimalServiceImp implements TipoAnimalService {
     public void deleteTipoAnimal(Integer id) {
         tipoAnimalRepository.deleteById(id);
     }
+
+    @Override
+    public TipoAnimal findById(Integer id) {
+        return tipoAnimalRepository.findById(id).get();
+    }
 }

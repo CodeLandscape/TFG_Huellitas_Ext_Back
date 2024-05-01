@@ -7,6 +7,7 @@ import com.preving.restapi.base.domain.entity.Raza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,18 +38,46 @@ public class RazaServiceImp implements RazaService{
 
 
     @Override
-    public List<Raza> findAll() {
-        return razaRepository.findAll();
+    public List<RazaDto> findAll() {
+        List<Raza> razas = razaRepository.findAll();
+        List<RazaDto> razaDtos = new ArrayList<>();
+
+        for (Raza raza : razas) {
+            RazaDto razaDto = new RazaDto();
+            razaDto.setId(raza.getId());
+            razaDto.setNombre(raza.getNombre());
+            razaDto.setIdTipoAnimal(raza.getIdTipoAnimal().getId());
+            razaDtos.add(razaDto);
+        }
+
+        return razaDtos;
     }
 
     @Override
-    public List<Raza> findByIdTipoAnimal(Integer idTipoAnimal) {
-        return razaRepository.findByIdTipoAnimal(tipoAnimalRepository.findById(idTipoAnimal).get());
+    public List<RazaDto> findByIdTipoAnimal(Integer idTipoAnimal) {
+        List<Raza> razas = razaRepository.findByIdTipoAnimal(tipoAnimalRepository.findById(idTipoAnimal).get());
+        List<RazaDto> razaDtos = new ArrayList<>();
+
+        for (Raza raza : razas) {
+            RazaDto razaDto = new RazaDto();
+            razaDto.setId(raza.getId());
+            razaDto.setNombre(raza.getNombre());
+            razaDto.setIdTipoAnimal(raza.getIdTipoAnimal().getId());
+            razaDtos.add(razaDto);
+        }
+
+        return razaDtos;
     }
 
     @Override
-    public Raza findById(Integer id) {
-        return razaRepository.findById(id).get();
+    public RazaDto findById(Integer id) {
+        Raza raza = razaRepository.findById(id).get();
+        RazaDto razaDto = new RazaDto();
+        razaDto.setId(raza.getId());
+        razaDto.setNombre(raza.getNombre());
+        razaDto.setIdTipoAnimal(raza.getIdTipoAnimal().getId());
+
+        return razaDto;
     }
 
 
