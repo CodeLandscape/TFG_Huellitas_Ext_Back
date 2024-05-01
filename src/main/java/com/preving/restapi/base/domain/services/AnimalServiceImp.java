@@ -25,13 +25,12 @@ public class AnimalServiceImp implements AnimalService {
 
     @Transactional
     public AnimalDto add(AnimalDto animal) {
-        RazaDto raza = new RazaDto(razaRepository.findById(animal.getRaza().getId()).orElse(null));
         AsociacionDto asociacion = new AsociacionDto(asociacionRepository.findById(animal.getAsociacion().getId()).orElse(null));
-        animal.setRaza(raza);
         animal.setAsociacion(asociacion);
         animal.setActivo(true);
         animal.setFechaAdopcion(null);
         Animal animalEntity = animal.toEntity();
+        animalEntity.setIdRaza(razaRepository.findById(animal.getRaza().getId()).orElse(null));
         animalEntity = animalRepository.save(animalEntity);
         return new AnimalDto(animalEntity);
     }

@@ -45,7 +45,7 @@ public class AnimalDto implements Serializable {
         this.fechaNac = Date.from(animal.getFechaNac());
         this.fechaLlegadaAsoc = Date.from(animal.getFechaLlegadaAsoc());
         this.observaciones = animal.getObservaciones();
-        this.raza = new RazaDto(animal.getIdRaza());
+        this.raza = new RazaDto(animal.getIdRaza().getId(), animal.getIdRaza().getNombre(), animal.getIdRaza().getIdTipoAnimal().getId());
         this.asociacion = new AsociacionDto(animal.getIdAsociacion());
         this.activo = animal.getActivo();
         this.fechaAdopcion = animal.getFechaAdopcion();

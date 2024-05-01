@@ -1,5 +1,6 @@
 package com.preving.restapi.base.domain.dto;
 
+import com.preving.restapi.base.domain.entity.TipoAnimal;
 import lombok.Value;
 
 import javax.validation.constraints.NotNull;
