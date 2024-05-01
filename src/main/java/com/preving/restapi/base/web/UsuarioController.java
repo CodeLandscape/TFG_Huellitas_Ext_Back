@@ -25,10 +25,6 @@ public class UsuarioController {
         }
     }
 
-    public UsuarioController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
-    }
-
     @PutMapping("baja/{id}")
     public ResponseEntity<Void> desactivarUsuario(@PathVariable Integer id) {
         usuarioService.desactivarUsuario(id);
