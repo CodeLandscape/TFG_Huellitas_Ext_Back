@@ -1,10 +1,5 @@
 package com.preving.restapi.base.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.preving.restapi.base.domain.entity.TipoAnimal;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.Value;
 
 import javax.validation.constraints.NotNull;
@@ -14,10 +9,7 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.preving.restapi.base.domain.entity.TipoAnimal}
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@Value
 public class TipoAnimalDto implements Serializable {
     Integer id;
     @NotNull
