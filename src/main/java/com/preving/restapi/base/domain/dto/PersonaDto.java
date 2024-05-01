@@ -1,6 +1,10 @@
 package com.preving.restapi.base.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.preving.restapi.base.domain.entity.Persona;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.Value;
 
 import javax.validation.constraints.NotNull;
@@ -10,7 +14,10 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.preving.restapi.base.domain.entity.Persona}
  */
-@Value
+@Getter
+@Setter
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonaDto implements Serializable {
     Integer id;
     @NotNull
@@ -21,6 +28,19 @@ public class PersonaDto implements Serializable {
     @NotNull
     @Size(max = 90)
     String apellidos;
+    @NotNull
+    String correo;
+    @NotNull
+    String password;
+    @NotNull
+    String tlf;
+    @NotNull
+    String direccion;
+    @NotNull
+    String poblacion;
+    @NotNull
+    Integer idProvincia;
+
     @NotNull
     @Size(max = 9)
     String dni;
