@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -44,6 +45,7 @@ public class AnimalController {
         }
     }
 
+    @Transactional
     @GetMapping(value = "/findById/{id}")
     public ResponseEntity<?> findById(@PathVariable Integer id) {
         try {
@@ -58,6 +60,17 @@ public class AnimalController {
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
             animalService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody AnimalDto animal) {
+        try {
+            animalService.update(id, animal);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

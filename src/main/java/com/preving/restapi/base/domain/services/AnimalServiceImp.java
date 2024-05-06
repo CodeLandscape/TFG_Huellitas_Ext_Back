@@ -39,6 +39,7 @@ public class AnimalServiceImp implements AnimalService {
         animalEntity = animalRepository.save(animalEntity);
         return new AnimalDto(animalEntity);
     }
+
     @Transactional
     @Override
     public Page<AnimalDto> findAll(String strSearch, List<Long> idTipoAnimal, List<Long> IdRaza, int page, int limit, String sort, String order) {
@@ -66,6 +67,19 @@ public class AnimalServiceImp implements AnimalService {
     @Override
     public AnimalDto findById(Integer id) {
         return new AnimalDto(animalRepository.findById(id).orElse(null));
+    }
+
+    @Override
+    public void update(Integer id, AnimalDto animal) {
+        Animal animalEntity = this.animalRepository.findById(id).orElse(null);
+
+        animalEntity.setNombre(animal.getNombre());
+        animalEntity.setFechaNac(animal.getFechaNac().toInstant());
+        animalEntity.setFechaLlegadaAsoc(animal.getFechaLlegadaAsoc().toInstant());
+        animalEntity.setObservaciones(animal.getObservaciones());
+        animalEntity.setIdRaza(razaRepository.findById(animal.getRaza().getId()).orElse(null));
+
+        animalRepository.save(animalEntity);
     }
 
     private Specification<Animal> animalSpecification(String strSearch, List<Long> idTipoAnimal, List<Long> IdRaza) {

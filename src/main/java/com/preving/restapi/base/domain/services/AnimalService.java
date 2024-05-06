@@ -13,4 +13,6 @@ public interface AnimalService {
     public void delete(Integer id);
 
     public AnimalDto findById(Integer id);
+
+    void update(Integer id, AnimalDto animal);
 }
