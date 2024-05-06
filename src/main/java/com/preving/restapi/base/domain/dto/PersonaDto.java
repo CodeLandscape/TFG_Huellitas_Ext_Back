@@ -2,6 +2,7 @@ package com.preving.restapi.base.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.preving.restapi.base.domain.entity.Persona;
+import com.preving.restapi.base.domain.entity.Usuario;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,11 +46,13 @@ public class PersonaDto implements Serializable {
 
 
     //convertir de persona a personaDto
-    public PersonaDto(Persona persona){
+    public PersonaDto(Persona persona, Usuario usuario){
         this.id = persona.getId();
         this.nombre = persona.getNombre();
         this.apellidos = persona.getApellidos();
         this.dni = persona.getDni();
+        this.correo = usuario.getCorreo();
+        this.tlf = usuario.getTlf();
     }
 
     //convertir de personaDto a persona
