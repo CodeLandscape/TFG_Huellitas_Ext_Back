@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,8 +77,22 @@ public class AnimalServiceImp implements AnimalService {
         Animal animalEntity = this.animalRepository.findById(id).orElse(null);
 
         animalEntity.setNombre(animal.getNombre());
-        animalEntity.setFechaNac(animal.getFechaNac().toInstant());
-        animalEntity.setFechaLlegadaAsoc(animal.getFechaLlegadaAsoc().toInstant());
+        animalEntity.setFechaNac(
+                ZonedDateTime.ofInstant(animal.getFechaNac().toInstant(), ZoneId.systemDefault())
+                        .withHour(12)
+                        .withMinute(0)
+                        .withSecond(0)
+                        .withNano(0)
+                        .toInstant()
+        );
+        animalEntity.setFechaLlegadaAsoc(
+                ZonedDateTime.ofInstant(animal.getFechaLlegadaAsoc().toInstant(), ZoneId.systemDefault())
+                        .withHour(12)
+                        .withMinute(0)
+                        .withSecond(0)
+                        .withNano(0)
+                        .toInstant()
+        );
         animalEntity.setObservaciones(animal.getObservaciones());
         animalEntity.setIdRaza(razaRepository.findById(animal.getRaza().getId()).orElse(null));
 
