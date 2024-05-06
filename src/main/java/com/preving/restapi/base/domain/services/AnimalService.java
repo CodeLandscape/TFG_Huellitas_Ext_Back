@@ -11,4 +11,6 @@ public interface AnimalService {
     public Page<AnimalDto> findAll(String strSearch, List<Long> idTipoAnimal, List<Long> IdRaza, int page, int limit, String sort, String order);
 
     public void delete(Integer id);
+
+    public AnimalDto findById(Integer id);
 }

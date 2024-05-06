@@ -5,7 +5,6 @@ import com.preving.restapi.base.domain.dao.AsociacionRepository;
 import com.preving.restapi.base.domain.dao.RazaRepository;
 import com.preving.restapi.base.domain.dto.AnimalDto;
 import com.preving.restapi.base.domain.dto.AsociacionDto;
-import com.preving.restapi.base.domain.dto.RazaDto;
 import com.preving.restapi.base.domain.entity.Animal;
 import com.preving.restapi.base.domain.entity.Raza;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -60,7 +58,14 @@ public class AnimalServiceImp implements AnimalService {
 
     @Override
     public void delete(Integer id) {
-        animalRepository.deleteById(id);
+        Animal animal = animalRepository.findById(id).orElse(null);
+        animal.setActivo(false);
+        animalRepository.save(animal);
+    }
+
+    @Override
+    public AnimalDto findById(Integer id) {
+        return new AnimalDto(animalRepository.findById(id).orElse(null));
     }
 
     private Specification<Animal> animalSpecification(String strSearch, List<Long> idTipoAnimal, List<Long> IdRaza) {
@@ -78,6 +83,7 @@ public class AnimalServiceImp implements AnimalService {
             if (IdRaza != null && !IdRaza.isEmpty()) {
                 predicates.add(root.get("idRaza").in(IdRaza));
             }
+            predicates.add(criteriaBuilder.equal(root.get("activo"), true));
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
     }

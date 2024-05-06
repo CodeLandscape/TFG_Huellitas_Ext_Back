@@ -44,6 +44,16 @@ public class AnimalController {
         }
     }
 
+    @GetMapping(value = "/findById/{id}")
+    public ResponseEntity<?> findById(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<>(animalService.findById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         try {
@@ -54,4 +64,5 @@ public class AnimalController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }
