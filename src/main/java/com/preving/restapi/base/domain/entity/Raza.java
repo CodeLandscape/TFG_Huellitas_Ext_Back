@@ -25,6 +25,6 @@ public class Raza {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_Tipo_Animal", nullable = false)
-    private TipoAnimal idTipoAnimal;
+    private TipoAnimal tipoAnimal;
 
 }

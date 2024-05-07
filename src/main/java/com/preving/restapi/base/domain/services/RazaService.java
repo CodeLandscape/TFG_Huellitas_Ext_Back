@@ -10,11 +10,11 @@ public interface RazaService {
 
     public void deleteRaza(Integer id);
 
-    public List<RazaDto> findByIdTipoAnimal(Integer idTipoAnimal);
+    public List<Raza> findByIdTipoAnimal(Integer idTipoAnimal);
 
-    public List<RazaDto> findAll();
+    public List<Raza> findAll();
 
-    public RazaDto findById(Integer id);
+    public Raza findById(Integer id);
 
     public void updateRaza(RazaDto raza);
 

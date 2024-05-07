@@ -7,7 +7,6 @@ import com.preving.restapi.base.domain.entity.Raza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,7 +18,7 @@ public class RazaServiceImp implements RazaService{
     @Override
     public Raza addRaza(RazaDto razaDto ) {
         Raza raza = razaDto.toEntity();
-        raza.setIdTipoAnimal(tipoAnimalRepository.findById(razaDto.getIdTipoAnimal()).get());
+        raza.setTipoAnimal(tipoAnimalRepository.findById(razaDto.getIdTipoAnimal()).get());
 
         return razaRepository.save(raza);
     }
@@ -32,52 +31,24 @@ public class RazaServiceImp implements RazaService{
     @Override
     public void updateRaza(RazaDto razaDto) {
         Raza raza = razaDto.toEntity();
-        raza.setIdTipoAnimal(tipoAnimalRepository.findById(razaDto.getIdTipoAnimal()).get());
+        raza.setTipoAnimal(tipoAnimalRepository.findById(razaDto.getIdTipoAnimal()).get());
         razaRepository.save(raza);
     }
 
 
     @Override
-    public List<RazaDto> findAll() {
-        List<Raza> razas = razaRepository.findAll();
-        List<RazaDto> razaDtos = new ArrayList<>();
-
-        for (Raza raza : razas) {
-            RazaDto razaDto = new RazaDto();
-            razaDto.setId(raza.getId());
-            razaDto.setNombre(raza.getNombre());
-            razaDto.setIdTipoAnimal(raza.getIdTipoAnimal().getId());
-            razaDtos.add(razaDto);
-        }
-
-        return razaDtos;
+    public List<Raza> findAll() {
+        return razaRepository.findAll();
     }
 
     @Override
-    public List<RazaDto> findByIdTipoAnimal(Integer idTipoAnimal) {
-        List<Raza> razas = razaRepository.findByIdTipoAnimal(tipoAnimalRepository.findById(idTipoAnimal).get());
-        List<RazaDto> razaDtos = new ArrayList<>();
-
-        for (Raza raza : razas) {
-            RazaDto razaDto = new RazaDto();
-            razaDto.setId(raza.getId());
-            razaDto.setNombre(raza.getNombre());
-            razaDto.setIdTipoAnimal(raza.getIdTipoAnimal().getId());
-            razaDtos.add(razaDto);
-        }
-
-        return razaDtos;
+    public List<Raza> findByIdTipoAnimal(Integer idTipoAnimal) {
+        return razaRepository.findByTipoAnimal(tipoAnimalRepository.findById(idTipoAnimal).get());
     }
 
     @Override
-    public RazaDto findById(Integer id) {
-        Raza raza = razaRepository.findById(id).get();
-        RazaDto razaDto = new RazaDto();
-        razaDto.setId(raza.getId());
-        razaDto.setNombre(raza.getNombre());
-        razaDto.setIdTipoAnimal(raza.getIdTipoAnimal().getId());
-
-        return razaDto;
+    public Raza findById(Integer id) {
+        return razaRepository.findById(id).get();
     }
 
 
