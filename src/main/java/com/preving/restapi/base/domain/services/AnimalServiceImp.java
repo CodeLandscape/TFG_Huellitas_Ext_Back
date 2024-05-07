@@ -78,20 +78,10 @@ public class AnimalServiceImp implements AnimalService {
 
         animalEntity.setNombre(animal.getNombre());
         animalEntity.setFechaNac(
-                ZonedDateTime.ofInstant(animal.getFechaNac().toInstant(), ZoneId.systemDefault())
-                        .withHour(12)
-                        .withMinute(0)
-                        .withSecond(0)
-                        .withNano(0)
-                        .toInstant()
+                animal.getFechaNac().toInstant()
         );
         animalEntity.setFechaLlegadaAsoc(
-                ZonedDateTime.ofInstant(animal.getFechaLlegadaAsoc().toInstant(), ZoneId.systemDefault())
-                        .withHour(12)
-                        .withMinute(0)
-                        .withSecond(0)
-                        .withNano(0)
-                        .toInstant()
+                animal.getFechaLlegadaAsoc().toInstant()
         );
         animalEntity.setObservaciones(animal.getObservaciones());
         animalEntity.setIdRaza(razaRepository.findById(animal.getRaza().getId()).orElse(null));

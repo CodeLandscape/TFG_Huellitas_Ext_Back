@@ -40,26 +40,24 @@ public class AnimalDto implements Serializable {
     AsociacionDto asociacion;
     @NotNull
     Boolean activo;
-    Instant fechaAdopcion;
+    Date fechaAdopcion;
 
     public AnimalDto(Animal animal) {
         this.id = animal.getId();
         this.nombre = animal.getNombre();
         this.fechaNac = Date.from(
                 animal.getFechaNac()
-                        .atZone(ZoneId.of("UTC"))
-                        .toInstant()
         );
         this.fechaLlegadaAsoc = Date.from(
                 animal.getFechaLlegadaAsoc()
-                        .atZone(ZoneId.of("UTC"))
-                        .toInstant()
         );
         this.observaciones = animal.getObservaciones();
         this.raza = new RazaDto(animal.getIdRaza().getId(), animal.getIdRaza().getNombre(), animal.getIdRaza().getIdTipoAnimal().getId());
         this.asociacion = new AsociacionDto(animal.getIdAsociacion());
         this.activo = animal.getActivo();
-        this.fechaAdopcion = animal.getFechaAdopcion();
+        if (animal.getFechaAdopcion() != null) {
+            this.fechaAdopcion = Date.from(animal.getFechaAdopcion());
+        }
     }
 
     public Animal toEntity() {
@@ -67,26 +65,17 @@ public class AnimalDto implements Serializable {
         animal.setId(this.getId());
         animal.setNombre(this.getNombre());
         animal.setFechaNac(
-                ZonedDateTime.ofInstant(this.getFechaNac().toInstant(), ZoneId.systemDefault())
-                        .withHour(12)
-                        .withMinute(0)
-                        .withSecond(0)
-                        .withNano(0)
-                        .toInstant()
+                this.getFechaNac().toInstant()
         );
         animal.setFechaLlegadaAsoc(
-                ZonedDateTime.ofInstant(this.getFechaLlegadaAsoc().toInstant(), ZoneId.systemDefault())
-                        .withHour(12)
-                        .withMinute(0)
-                        .withSecond(0)
-                        .withNano(0)
-                        .toInstant()
+                this.getFechaLlegadaAsoc().toInstant()
         );
         animal.setObservaciones(this.getObservaciones());
         animal.setIdRaza(this.getRaza().toEntity());
         animal.setIdAsociacion(this.getAsociacion().toEntity());
         animal.setActivo(this.getActivo());
-        animal.setFechaAdopcion(this.getFechaAdopcion());
+        if (this.getFechaAdopcion() != null)
+            animal.setFechaAdopcion(this.getFechaAdopcion().toInstant());
         return animal;
     }
 
