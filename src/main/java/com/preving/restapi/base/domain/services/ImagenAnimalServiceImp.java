@@ -3,6 +3,7 @@ package com.preving.restapi.base.domain.services;
 import com.preving.restapi.base.domain.dao.AnimalRepository;
 import com.preving.restapi.base.domain.dao.ImagenAnimalRepository;
 import com.preving.restapi.base.domain.dto.ImagenAnimalDto;
+import com.preving.restapi.base.domain.entity.Animal;
 import com.preving.restapi.base.domain.entity.ImagenAnimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +28,18 @@ public class ImagenAnimalServiceImp implements ImagenAnimalService {
     private AnimalRepository animalRepository;
 
     @Override
-    public List<ImagenAnimal> findByAnimalId(Integer id) {
-        List<ImagenAnimal> imagenAnimalList = this.imagenAnimalRepository.findByIdAnimal(animalRepository.findById(id).get());
+    public List<ImagenAnimalDto> findByAnimalId(Integer id) {
+        Animal animal = animalRepository.findById(id).orElse(null);
+        if (animal == null) {
+            throw new IllegalArgumentException("No animal found with the given id");
+        }
+        List<ImagenAnimal> imagenAnimalList = this.imagenAnimalRepository.findByIdAnimal(animal);
         List<ImagenAnimalDto> imagenAnimalDtoList = new ArrayList<>();
         for (ImagenAnimal imagenAnimal : imagenAnimalList) {
             ImagenAnimalDto imagenAnimalDto = new ImagenAnimalDto(imagenAnimal);
             imagenAnimalDtoList.add(imagenAnimalDto);
         }
-        return imagenAnimalList;
+        return imagenAnimalDtoList;
     }
 
     @Override
@@ -46,14 +52,16 @@ public class ImagenAnimalServiceImp implements ImagenAnimalService {
             // Crear directorios si no existen
             Path filePath = new File("../archivos/animal/"+idAnimal).toPath();
             Files.createDirectories(filePath);
-            // Generar nombre único para el archivo
-            String uuid = UUID.randomUUID().toString();
+            // Usar "imagen" como nombre de archivo
+            String uniqueFilename = "imagen";
+            // Obtener la extensión del archivo
             String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            String uniqueFilename = uuid + extension;
+            // Combinar el nombre del archivo y la extensión
+            String filenameWithExtension = uniqueFilename + extension;
             // Guardar el archivo en el sistema de archivos
-            Files.copy(file.getInputStream(), filePath.resolve(uniqueFilename));
+            Files.copy(file.getInputStream(), filePath.resolve(filenameWithExtension), StandardCopyOption.REPLACE_EXISTING);
             // Obtener la ruta del archivo
-            String rutaFichero = filePath.resolve(uniqueFilename).toString();
+            String rutaFichero = filePath.resolve(filenameWithExtension).toString();
             // Crear un nuevo documento de animal (imagen)
             ImagenAnimal imagenAnimal = new ImagenAnimal();
             imagenAnimal.setFicheroNombre(uniqueFilename);
@@ -78,33 +86,4 @@ public class ImagenAnimalServiceImp implements ImagenAnimalService {
         imagenAnimalRepository.delete(imagenAnimal);
     }
 
-    @Override
-    public ImagenAnimal editImagen(MultipartFile file, String name, String description, Integer id) {
-// Verificar si los parámetros son válidos
-        if (file == null || name == null || description == null || id == null) {
-            throw new IllegalArgumentException("Invalid parameters");
-        }
-        try {
-            // Crear directorios si no existen
-            Path filePath = new File("../archivos/animal/"+id).toPath();
-            Files.createDirectories(filePath);
-            // Generar nombre único para el archivo
-            String uuid = UUID.randomUUID().toString();
-            String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            String uniqueFilename = uuid + extension;
-            // Guardar el archivo en el sistema de archivos
-            Files.copy(file.getInputStream(), filePath.resolve(uniqueFilename));
-            // Obtener la ruta del archivo
-            String rutaFichero = filePath.resolve(uniqueFilename).toString();
-            // Crear un nuevo documento de animal (imagen)
-            ImagenAnimal imagenAnimal = imagenAnimalRepository.findById(id).get();
-            imagenAnimal.setFicheroNombre(uniqueFilename);
-            imagenAnimal.setFicheroRuta(rutaFichero);
-            // Guardar el documento en la base de datos
-            imagenAnimalRepository.save(imagenAnimal);
-        } catch (Exception e) {
-            throw new RuntimeException("Error uploading file");
-        }
-        return null;
-    }
 }

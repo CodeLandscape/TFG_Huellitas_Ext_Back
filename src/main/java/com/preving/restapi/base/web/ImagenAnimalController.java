@@ -48,19 +48,4 @@ public class ImagenAnimalController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    // Método para editar una imagen
-    @PutMapping(value = "/imagen/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> editImagen(@RequestParam(name = "file") MultipartFile file,
-                                        @RequestParam(name = "name") String name,
-                                        @RequestParam(name = "description") String description,
-                                        @PathVariable Integer id) {
-        try {
-            return new ResponseEntity<>(imagenAnimalService.editImagen(file, name, description, id), HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
 }
