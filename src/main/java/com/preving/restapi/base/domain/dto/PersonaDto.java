@@ -59,6 +59,9 @@ public class PersonaDto implements Serializable {
         this.tlf = usuario.getTlf();
     }
 
+    public PersonaDto(Persona persona) {
+    }
+
     public Persona toEntity() {
         Persona persona = new Persona();
         persona.setId(this.getId());
