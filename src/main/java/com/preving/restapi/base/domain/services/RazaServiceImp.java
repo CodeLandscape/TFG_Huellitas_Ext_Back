@@ -18,7 +18,7 @@ public class RazaServiceImp implements RazaService{
     @Override
     public Raza addRaza(RazaDto razaDto ) {
         Raza raza = razaDto.toEntity();
-        raza.setIdTipoAnimal(tipoAnimalRepository.findById(razaDto.getIdTipoAnimal()).get());
+        raza.setTipoAnimal(tipoAnimalRepository.findById(razaDto.getIdTipoAnimal()).get());
 
         return razaRepository.save(raza);
     }
@@ -31,7 +31,7 @@ public class RazaServiceImp implements RazaService{
     @Override
     public void updateRaza(RazaDto razaDto) {
         Raza raza = razaDto.toEntity();
-        raza.setIdTipoAnimal(tipoAnimalRepository.findById(razaDto.getIdTipoAnimal()).get());
+        raza.setTipoAnimal(tipoAnimalRepository.findById(razaDto.getIdTipoAnimal()).get());
         razaRepository.save(raza);
     }
 
@@ -43,7 +43,7 @@ public class RazaServiceImp implements RazaService{
 
     @Override
     public List<Raza> findByIdTipoAnimal(Integer idTipoAnimal) {
-        return razaRepository.findByIdTipoAnimal(tipoAnimalRepository.findById(idTipoAnimal).get());
+        return razaRepository.findByTipoAnimal(tipoAnimalRepository.findById(idTipoAnimal).get());
     }
 
     @Override

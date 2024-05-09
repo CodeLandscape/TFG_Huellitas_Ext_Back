@@ -5,13 +5,11 @@ import com.preving.restapi.base.domain.entity.Animal;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Value;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -52,7 +50,7 @@ public class AnimalDto implements Serializable {
                 animal.getFechaLlegadaAsoc()
         );
         this.observaciones = animal.getObservaciones();
-        this.raza = new RazaDto(animal.getIdRaza().getId(), animal.getIdRaza().getNombre(), animal.getIdRaza().getIdTipoAnimal().getId());
+        this.raza = new RazaDto(animal.getIdRaza().getId(), animal.getIdRaza().getNombre(), animal.getIdRaza().getTipoAnimal().getId());
         this.asociacion = new AsociacionDto(animal.getIdAsociacion());
         this.activo = animal.getActivo();
         if (animal.getFechaAdopcion() != null) {
