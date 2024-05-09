@@ -26,6 +26,15 @@ public class ImagenAnimalController {
         }
     }
 
+    @GetMapping(value = "/info/{id}")
+    public ResponseEntity<?> findById(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<>(imagenAnimalService.findInfoByAnimalId(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     // Método para subir una imagen
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadFile(@RequestParam(name = "file") MultipartFile file,

@@ -11,4 +11,5 @@ public interface ImagenAnimalRepository extends JpaRepository<ImagenAnimal, Inte
     List<ImagenAnimal> findByIdAnimal(Animal animal);
     Optional<ImagenAnimal> findById(Integer id);
     void deleteById(Long id);
+
 }

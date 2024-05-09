@@ -94,4 +94,14 @@ public class ImagenAnimalServiceImp implements ImagenAnimalService {
         imagenAnimalRepository.delete(imagenAnimal);
     }
 
+    @Override
+    public ImagenAnimalDto findInfoByAnimalId(Integer id) {
+        Animal animal = animalRepository.findById(id).orElse(null);
+        if (animal == null) {
+            throw new IllegalArgumentException("No animal found with the given id");
+        }
+        List<ImagenAnimal> imagenAnimalList = this.imagenAnimalRepository.findByIdAnimal(animal);
+        return new ImagenAnimalDto(imagenAnimalList.get(0));
+    }
+
 }
