@@ -14,4 +14,6 @@ public interface TipoAnimalService {
 
     //borrar un tipo de animal por ID
     public void deleteTipoAnimal(Integer id);
+
+    public TipoAnimal findById(Integer id);
 }

@@ -48,5 +48,15 @@ public class TipoAnimalController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //buscar un tipo de animal por id
+    @GetMapping(value = "/findById/{id}")
+    public ResponseEntity<?> findById(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<>(tipoAnimalService.findById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 

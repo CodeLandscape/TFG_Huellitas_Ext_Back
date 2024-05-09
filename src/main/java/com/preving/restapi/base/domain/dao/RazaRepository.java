@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RazaRepository extends JpaRepository<Raza, Integer> {
-    List<Raza> findByIdTipoAnimal(TipoAnimal idTipoAnimal);
+    List<Raza> findByTipoAnimal(TipoAnimal idTipoAnimal);
 
     List<Raza> findAll();
 
