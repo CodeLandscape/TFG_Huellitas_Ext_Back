@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -28,18 +30,24 @@ public class ImagenAnimalServiceImp implements ImagenAnimalService {
     private AnimalRepository animalRepository;
 
     @Override
-    public List<ImagenAnimalDto> findByAnimalId(Integer id) {
+    public byte[] findByAnimalId(Integer id) {
         Animal animal = animalRepository.findById(id).orElse(null);
         if (animal == null) {
             throw new IllegalArgumentException("No animal found with the given id");
         }
         List<ImagenAnimal> imagenAnimalList = this.imagenAnimalRepository.findByIdAnimal(animal);
-        List<ImagenAnimalDto> imagenAnimalDtoList = new ArrayList<>();
-        for (ImagenAnimal imagenAnimal : imagenAnimalList) {
-            ImagenAnimalDto imagenAnimalDto = new ImagenAnimalDto(imagenAnimal);
-            imagenAnimalDtoList.add(imagenAnimalDto);
+        if (imagenAnimalList.isEmpty()) {
+            throw new IllegalArgumentException("No image found for the given animal id");
         }
-        return imagenAnimalDtoList;
+        // Aquí asumimos que quieres devolver la primera imagen si hay varias
+        ImagenAnimal imagenAnimal = imagenAnimalList.get(0);
+        Path path = Paths.get(imagenAnimal.getFicheroRuta());
+        try {
+            return Files.readAllBytes(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
