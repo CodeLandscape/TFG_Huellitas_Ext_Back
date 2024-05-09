@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ImagenAnimalService {
-    public List<ImagenAnimalDto> findByAnimalId(Integer id);
+    public byte[] findByAnimalId(Integer id);
 
     public ImagenAnimal uploadImage(MultipartFile file, Integer idAnimal);
 
