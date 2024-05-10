@@ -33,7 +33,7 @@ public class AnimalController {
                                      @RequestParam(required = false) List<Long> idTipoAnimal,
                                      @RequestParam(required = false) List<Long> idRaza,
                                      @RequestParam(defaultValue = "0") int page,
-                                     @RequestParam(defaultValue = "12") int limit,
+                                     @RequestParam(defaultValue = "6") int limit,
                                      @RequestParam(defaultValue = "id") String sort,
                                      @RequestParam(defaultValue = "asc") String order) {
         try {
