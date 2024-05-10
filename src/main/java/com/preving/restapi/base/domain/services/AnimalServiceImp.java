@@ -99,7 +99,7 @@ public class AnimalServiceImp implements AnimalService {
             }
             if (idTipoAnimal != null && !idTipoAnimal.isEmpty()) {
                 Join<Animal, Raza> razaJoin = root.join("idRaza");
-                predicates.add(razaJoin.get("idTipoAnimal").in(idTipoAnimal));
+                predicates.add(razaJoin.get("tipoAnimal").in(idTipoAnimal));
             }
             if (IdRaza != null && !IdRaza.isEmpty()) {
                 predicates.add(root.get("idRaza").in(IdRaza));
