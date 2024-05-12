@@ -8,21 +8,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Override
-    protected void configure(HttpSecurity http) {
-        try {
-            http
-                    .authorizeRequests()
-                    .antMatchers("/auth/**").permitAll() // Los demás endpoints de auth requieren autenticación
-//                    .antMatchers("/admin/**").hasRole("ADMIN")
-//                    .antMatchers("/user/**").hasRole("USER")
-//                    .antMatchers("/asoc/**").hasRole("ASOC")
-                    .anyRequest().authenticated()
-                    .and()
-                    .httpBasic().disable();
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Aquí puedes manejar la excepción como prefieras
-        }
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated();
     }
+
 }

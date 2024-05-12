@@ -20,18 +20,8 @@ public class Rol {
 
     @Size(max = 200)
     @NotNull
-    @Column(name = "nombre", nullable = false, length = 200)
-    private String nombre;
-
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private Roles name;
+    @Column(name = "nombre", nullable = false, length = 200)
+    private Roles nombre;
 
-    public Rol(Roles name) {
-        this.name = name;
-    }
-
-    public Rol() {
-
-    }
 }

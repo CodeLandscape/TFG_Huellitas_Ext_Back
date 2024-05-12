@@ -6,9 +6,11 @@ import com.preving.restapi.base.domain.dto.AsociacionDto;
 import com.preving.restapi.base.domain.dto.PersonaDto;
 import com.preving.restapi.base.domain.dto.UsuarioDto;
 import com.preving.restapi.base.domain.entity.*;
+import com.preving.restapi.base.security.Roles;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +48,8 @@ public class AuthServiceImp implements AuthService {
         usuario.setDireccion(personaDto.getDireccion());
         usuario.setActivo(true);
         usuario.setTlf(personaDto.getTlf());
-        usuario.setIdRol(rolRepository.findByNombre("PERSONA"));
+        Roles nombreEnum = Roles.valueOf("ROLE_USER");
+        usuario.setIdRol(rolRepository.findByNombre(nombreEnum));
         usuario.setPassword(passwordEncoder.encode(personaDto.getPassword()));
         usuario.setPoblacion(personaDto.getPoblacion());
         usuario.setIdProvincia(provinciaRepository.findById(personaDto.getIdProvincia()).orElseThrow(() -> new RuntimeException("Provincia no encontrada")));
@@ -73,7 +76,8 @@ public class AuthServiceImp implements AuthService {
         usuario.setDireccion(asociacionDto.getDireccion());
         usuario.setActivo(false); // Es false porque tiene que validarse por un administrador.
         usuario.setTlf(asociacionDto.getTlf());
-        usuario.setIdRol(rolRepository.findByNombre("ASOCIACION"));
+        Roles nombreEnum = Roles.valueOf("ROLE_ASOC");
+        usuario.setIdRol(rolRepository.findByNombre(nombreEnum));
         usuario.setPassword(passwordEncoder.encode(asociacionDto.getPassword()));
         usuario.setPoblacion(asociacionDto.getPoblacion());
         usuario.setIdProvincia(provinciaRepository.findById(asociacionDto.getIdProvincia()).orElseThrow(() -> new RuntimeException("Provincia no encontrada")));
@@ -101,7 +105,8 @@ public class AuthServiceImp implements AuthService {
         usuario.setDireccion(adminDto.getDireccion());
         usuario.setActivo(true);
         usuario.setTlf(adminDto.getTlf());
-        usuario.setIdRol(rolRepository.findByNombre("ADMIN"));
+        Roles nombreEnum = Roles.valueOf("ROLE_ADMIN");
+        usuario.setIdRol(rolRepository.findByNombre(nombreEnum));
         usuario.setPassword(passwordEncoder.encode(adminDto.getPassword()));
 
         usuario.setPoblacion(adminDto.getPoblacion());
@@ -120,6 +125,9 @@ public class AuthServiceImp implements AuthService {
 
     }
 
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
     @Override
     public String login(UsuarioDto usuario) {
         Usuario userInDB = usuarioRepository.findByCorreo(usuario.getCorreo());
@@ -129,7 +137,7 @@ public class AuthServiceImp implements AuthService {
             return Jwts.builder()
                     .setSubject(userInDB.getCorreo())
                     .setExpiration(new Date(System.currentTimeMillis() + 864000000)) // 10 days
-                    .signWith(SignatureAlgorithm.HS512, "YourSecretKey")
+                    .signWith(SignatureAlgorithm.HS512, jwtSecret)
                     .compact();
         } else {
             throw new RuntimeException("Invalid email or password");

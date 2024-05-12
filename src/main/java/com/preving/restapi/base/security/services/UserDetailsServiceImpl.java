@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (usuario == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
-        GrantedAuthority authority = new SimpleGrantedAuthority(usuario.getIdRol().getName().name());
+        GrantedAuthority authority = new SimpleGrantedAuthority(usuario.getIdRol().getNombre().name());
         return new User(usuario.getCorreo(), usuario.getPassword(), Collections.singletonList(authority));
     }
 }
