@@ -1,5 +1,6 @@
 package com.preving.restapi.base.domain.entity;
 
+import com.preving.restapi.base.security.Roles;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +23,15 @@ public class Rol {
     @Column(name = "nombre", nullable = false, length = 200)
     private String nombre;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Roles name;
+
+    public Rol(Roles name) {
+        this.name = name;
+    }
+
+    public Rol() {
+
+    }
 }

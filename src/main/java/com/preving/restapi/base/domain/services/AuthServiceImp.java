@@ -4,11 +4,16 @@ import com.preving.restapi.base.domain.dao.*;
 import com.preving.restapi.base.domain.dto.AdminDto;
 import com.preving.restapi.base.domain.dto.AsociacionDto;
 import com.preving.restapi.base.domain.dto.PersonaDto;
+import com.preving.restapi.base.domain.dto.UsuarioDto;
 import com.preving.restapi.base.domain.entity.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 
 @Service
 public class AuthServiceImp implements AuthService {
@@ -33,14 +38,16 @@ public class AuthServiceImp implements AuthService {
     @Override
     public Persona addPerson(PersonaDto personaDto) {
 
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Usuario usuario = new Usuario();
+
 
         usuario.setCorreo(personaDto.getCorreo());
         usuario.setDireccion(personaDto.getDireccion());
         usuario.setActivo(true);
         usuario.setTlf(personaDto.getTlf());
         usuario.setIdRol(rolRepository.findByNombre("PERSONA"));
-        usuario.setPassword(personaDto.getPassword());
+        usuario.setPassword(passwordEncoder.encode(personaDto.getPassword()));
         usuario.setPoblacion(personaDto.getPoblacion());
         usuario.setIdProvincia(provinciaRepository.findById(personaDto.getIdProvincia()).orElseThrow(() -> new RuntimeException("Provincia no encontrada")));
 
@@ -59,13 +66,15 @@ public class AuthServiceImp implements AuthService {
     public Asociacion addAsociacion(AsociacionDto asociacionDto) {
 
         Usuario usuario = new Usuario();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
         usuario.setCorreo(asociacionDto.getCorreo());
         usuario.setDireccion(asociacionDto.getDireccion());
         usuario.setActivo(false); // Es false porque tiene que validarse por un administrador.
         usuario.setTlf(asociacionDto.getTlf());
         usuario.setIdRol(rolRepository.findByNombre("ASOCIACION"));
-        usuario.setPassword(asociacionDto.getPassword());
+        usuario.setPassword(passwordEncoder.encode(asociacionDto.getPassword()));
         usuario.setPoblacion(asociacionDto.getPoblacion());
         usuario.setIdProvincia(provinciaRepository.findById(asociacionDto.getIdProvincia()).orElseThrow(() -> new RuntimeException("Provincia no encontrada")));
 
@@ -85,13 +94,16 @@ public class AuthServiceImp implements AuthService {
     public Admin addAdmin(AdminDto adminDto) {
 
         Usuario usuario = new Usuario();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
         usuario.setCorreo(adminDto.getCorreo());
         usuario.setDireccion(adminDto.getDireccion());
         usuario.setActivo(true);
         usuario.setTlf(adminDto.getTlf());
         usuario.setIdRol(rolRepository.findByNombre("ADMIN"));
-        usuario.setPassword(adminDto.getPassword());
+        usuario.setPassword(passwordEncoder.encode(adminDto.getPassword()));
+
         usuario.setPoblacion(adminDto.getPoblacion());
         usuario.setIdProvincia(provinciaRepository.findById(adminDto.getIdProvincia()).orElseThrow(() -> new RuntimeException("Provincia no encontrada")));
 
@@ -106,5 +118,21 @@ public class AuthServiceImp implements AuthService {
 
 
 
+    }
+
+    @Override
+    public String login(UsuarioDto usuario) {
+        Usuario userInDB = usuarioRepository.findByCorreo(usuario.getCorreo());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if (userInDB != null && passwordEncoder.matches(usuario.getPassword(), userInDB.getPassword())) {
+            return Jwts.builder()
+                    .setSubject(userInDB.getCorreo())
+                    .setExpiration(new Date(System.currentTimeMillis() + 864000000)) // 10 days
+                    .signWith(SignatureAlgorithm.HS512, "YourSecretKey")
+                    .compact();
+        } else {
+            throw new RuntimeException("Invalid email or password");
+        }
     }
 }
