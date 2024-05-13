@@ -25,13 +25,13 @@ repositories {
 	}
 }
 
-group = 'com.preving.restapi'
+group = 'com.evg.restapi'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 jar {
 	manifest {
-		attributes 'Main-Class': 'com.preving.restapi.base.RestApiBaseApplication'
+		attributes 'Main-Class': 'com.evg.restapi.base.RestApiBaseApplication'
 	}
 }
 
