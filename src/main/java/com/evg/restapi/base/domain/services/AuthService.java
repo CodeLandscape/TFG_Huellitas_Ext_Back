@@ -7,6 +7,7 @@ import com.evg.restapi.base.domain.dto.UsuarioDto;
 import com.evg.restapi.base.domain.entity.Admin;
 import com.evg.restapi.base.domain.entity.Asociacion;
 import com.evg.restapi.base.domain.entity.Persona;
+import com.evg.restapi.base.security.JwtResponse;
 
 public interface AuthService {
     public Persona addPerson(PersonaDto persona);
@@ -15,5 +16,5 @@ public interface AuthService {
 
     public Admin addAdmin(AdminDto adminDto);
 
-    public String login(UsuarioDto usuario);
+    public JwtResponse login(UsuarioDto usuario);
 }

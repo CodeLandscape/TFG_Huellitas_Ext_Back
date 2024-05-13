@@ -5,6 +5,7 @@ import com.evg.restapi.base.domain.dto.AsociacionDto;
 import com.evg.restapi.base.domain.dto.PersonaDto;
 import com.evg.restapi.base.domain.dto.UsuarioDto;
 import com.evg.restapi.base.domain.services.UsuarioService;
+import com.evg.restapi.base.security.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UsuarioDto usuarioDto) {
         try {
-            String jwt = authService.login(usuarioDto);
+            JwtResponse jwt = authService.login(usuarioDto);
             return new ResponseEntity<>(jwt, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);

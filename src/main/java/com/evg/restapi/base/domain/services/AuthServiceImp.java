@@ -7,6 +7,7 @@ import com.evg.restapi.base.domain.entity.Admin;
 import com.evg.restapi.base.domain.entity.Asociacion;
 import com.evg.restapi.base.domain.entity.Persona;
 import com.evg.restapi.base.domain.entity.Usuario;
+import com.evg.restapi.base.security.JwtResponse;
 import com.evg.restapi.base.security.Roles;
 import com.evg.restapi.base.domain.dao.*;
 import com.evg.restapi.base.domain.dto.AdminDto;
@@ -133,12 +134,13 @@ public class AuthServiceImp implements AuthService {
     private String jwtSecret;
 
     @Override
-    public String login(UsuarioDto usuario) {
+    public JwtResponse login(UsuarioDto usuario) {
         Usuario userInDB = usuarioRepository.findByCorreo(usuario.getCorreo());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if (userInDB != null && passwordEncoder.matches(usuario.getPassword(), userInDB.getPassword())) {
-            return Jwts.builder()
+            // Construct and sign the token
+            String signedToken = Jwts.builder()
                     .setSubject(userInDB.getCorreo())
                     .claim("roles", userInDB.getIdRol().getNombre())
                     .claim("id", userInDB.getId())
@@ -146,6 +148,15 @@ public class AuthServiceImp implements AuthService {
                     .setExpiration(new Date(System.currentTimeMillis() + 864000000)) // 10 days
                     .signWith(SignatureAlgorithm.HS512, jwtSecret)
                     .compact();
+
+            // Construct a new token that includes the signed token as a claim
+            String tokenWithSignedToken = Jwts.builder()
+                    .setClaims(Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(signedToken).getBody())
+                    .claim("token", signedToken)
+                    .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                    .compact();
+
+            return new JwtResponse(tokenWithSignedToken);
         } else {
             throw new RuntimeException("Invalid email or password");
         }
