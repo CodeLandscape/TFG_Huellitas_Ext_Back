@@ -149,14 +149,8 @@ public class AuthServiceImp implements AuthService {
                     .signWith(SignatureAlgorithm.HS512, jwtSecret)
                     .compact();
 
-            // Construct a new token that includes the signed token as a claim
-            String tokenWithSignedToken = Jwts.builder()
-                    .setClaims(Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(signedToken).getBody())
-                    .claim("token", signedToken)
-                    .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                    .compact();
 
-            return new JwtResponse(tokenWithSignedToken);
+            return new JwtResponse(signedToken);
         } else {
             throw new RuntimeException("Invalid email or password");
         }

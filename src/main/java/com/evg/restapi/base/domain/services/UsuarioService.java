@@ -13,4 +13,6 @@ public interface UsuarioService {
 
     //listar a todos los usuarios
     List<UsuarioDto> findAll();
+
+    UsuarioDto findByCorreo(String correo);
 }

@@ -1,9 +1,6 @@
 package com.evg.restapi.base.web;
+import com.evg.restapi.base.domain.dto.*;
 import com.evg.restapi.base.domain.services.AuthService;
-import com.evg.restapi.base.domain.dto.AdminDto;
-import com.evg.restapi.base.domain.dto.AsociacionDto;
-import com.evg.restapi.base.domain.dto.PersonaDto;
-import com.evg.restapi.base.domain.dto.UsuarioDto;
 import com.evg.restapi.base.domain.services.UsuarioService;
 import com.evg.restapi.base.security.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +26,9 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody UsuarioDto usuarioDto) {
         try {
             JwtResponse jwt = authService.login(usuarioDto);
-            return new ResponseEntity<>(jwt, HttpStatus.OK);
+            UsuarioDto usuario = usuarioService.findByCorreo(usuarioDto.getCorreo());
+            JwtDTO jwtDTO = new JwtDTO(jwt.getToken(), usuario.getCorreo(), usuario.getId(), usuario.getRol().getNombre());
+            return new ResponseEntity<>(jwtDTO, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }

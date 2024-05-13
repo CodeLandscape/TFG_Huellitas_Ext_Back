@@ -75,4 +75,9 @@ public class UsuarioServiceImp implements UsuarioService{
     public List<UsuarioDto> findAll() {
         return usuarioRepository.findAll().stream().map(UsuarioDto::new).collect(Collectors.toList());
     }
+
+    @Override
+    public UsuarioDto findByCorreo(String correo) {
+        return new UsuarioDto(usuarioRepository.findByCorreo(correo));
+    }
 }
