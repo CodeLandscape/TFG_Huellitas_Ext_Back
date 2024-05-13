@@ -136,6 +136,9 @@ public class AuthServiceImp implements AuthService {
         if (userInDB != null && passwordEncoder.matches(usuario.getPassword(), userInDB.getPassword())) {
             return Jwts.builder()
                     .setSubject(userInDB.getCorreo())
+                    .claim("roles", userInDB.getIdRol().getNombre())
+                    .claim("id", userInDB.getId())
+                    .claim("activo", userInDB.getActivo())
                     .setExpiration(new Date(System.currentTimeMillis() + 864000000)) // 10 days
                     .signWith(SignatureAlgorithm.HS512, jwtSecret)
                     .compact();
