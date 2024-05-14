@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AsociacionRepository extends JpaRepository<Asociacion, Integer> {
+    Asociacion findByCif (String cif);
 }

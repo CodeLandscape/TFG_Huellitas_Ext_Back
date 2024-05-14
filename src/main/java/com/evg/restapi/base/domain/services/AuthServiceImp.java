@@ -19,6 +19,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,12 @@ public class AuthServiceImp implements AuthService {
 
     @Override
     public Persona addPerson(PersonaDto personaDto) {
+        if (usuarioRepository.findByCorreo(personaDto.getCorreo()) != null) {
+            throw new DataIntegrityViolationException("Correo ya registrado");
+        }
+        if (personaRepository.findByDni(personaDto.getDni()) != null) {
+            throw new DataIntegrityViolationException("DNI ya registrado");
+        }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Usuario usuario = new Usuario();
@@ -79,7 +86,9 @@ public class AuthServiceImp implements AuthService {
         Usuario usuario = new Usuario();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
+        if (asociacionRepository.findByCif(asociacionDto.getCif()) != null) {
+            throw new DataIntegrityViolationException("CIF ya registrado");
+        }
         usuario.setCorreo(asociacionDto.getCorreo());
         usuario.setDireccion(asociacionDto.getDireccion());
         usuario.setActivo(false); // Es false porque tiene que validarse por un administrador.
