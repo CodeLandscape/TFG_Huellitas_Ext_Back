@@ -23,6 +23,8 @@ public enum RestApiErrorCode {
 
     USER_ALREADY_EXISTS(1009, "El usuario ya existe en el sistema"),
 
+    USUARIO_INACTIVO(1010, "Usuario inactivo"),
+
     // códigos >= 9000 para excepciones no controladas y otros errores
     EXCEPCION_NO_CONTROLADA(9000, "Excepción no controlada por el sistema"),
 

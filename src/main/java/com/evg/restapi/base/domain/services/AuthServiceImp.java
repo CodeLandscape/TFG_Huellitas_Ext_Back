@@ -7,6 +7,8 @@ import com.evg.restapi.base.domain.entity.Admin;
 import com.evg.restapi.base.domain.entity.Asociacion;
 import com.evg.restapi.base.domain.entity.Persona;
 import com.evg.restapi.base.domain.entity.Usuario;
+import com.evg.restapi.base.exceptions.CustomRestApiException;
+import com.evg.restapi.base.exceptions.errors.RestApiErrorCode;
 import com.evg.restapi.base.security.JwtResponse;
 import com.evg.restapi.base.security.Roles;
 import com.evg.restapi.base.domain.dao.*;
@@ -17,6 +19,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -134,8 +137,11 @@ public class AuthServiceImp implements AuthService {
     private String jwtSecret;
 
     @Override
-    public JwtResponse login(UsuarioDto usuario) {
+    public JwtResponse login(UsuarioDto usuario) throws CustomRestApiException {
         Usuario userInDB = usuarioRepository.findByCorreo(usuario.getCorreo());
+        if (!userInDB.getActivo()) {
+            throw new CustomRestApiException(HttpStatus.UNAUTHORIZED, RestApiErrorCode.USUARIO_INACTIVO, "Usuario inactivo");
+        }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if (userInDB != null && passwordEncoder.matches(usuario.getPassword(), userInDB.getPassword())) {

@@ -2,10 +2,13 @@ package com.evg.restapi.base.web;
 
 import com.evg.restapi.base.domain.dto.UsuarioDto;
 import com.evg.restapi.base.domain.services.UsuarioService;
+import com.evg.restapi.base.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:4200"})
@@ -14,6 +17,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody UsuarioDto usuario) {
@@ -48,4 +54,21 @@ public class UsuarioController {
         }
     }
 
+
+    @GetMapping("/authenticate")
+    public ResponseEntity<?> authenticate(HttpServletRequest request) {
+        try{
+            String token = request.getHeader("Authorization");
+            if (token != null && token.startsWith("Bearer ")) {
+                token = token.replace("Bearer ", "");
+                if (jwtUtil.validateToken(token)) {
+                    return new ResponseEntity<>(true, HttpStatus.OK);
+                }
+            }
+            return new ResponseEntity<>("Token is not valid", HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

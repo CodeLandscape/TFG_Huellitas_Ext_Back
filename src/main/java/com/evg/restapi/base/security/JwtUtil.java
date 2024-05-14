@@ -1,16 +1,19 @@
 package com.evg.restapi.base.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.function.Function;
+
 @Component
 public class JwtUtil {
+    private final static Logger logger = LoggerFactory.getLogger(JwtAuthenticationEntryPoint.class);
+
     @Value("${jwt.secret}")
     private String secret;
 
@@ -48,5 +51,23 @@ public class JwtUtil {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            return true;
+        } catch (MalformedJwtException e) {
+            logger.error("token mal formado");
+        } catch (UnsupportedJwtException e) {
+            logger.error("token no soportado");
+        } catch (ExpiredJwtException e) {
+            logger.error("token expirado");
+        } catch (IllegalArgumentException e) {
+            logger.error("token vacío");
+        } catch (SignatureException e) {
+            logger.error("fail en la firma");
+        }
+        return false;
     }
 }

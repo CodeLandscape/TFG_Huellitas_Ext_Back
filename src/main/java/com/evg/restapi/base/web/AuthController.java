@@ -2,6 +2,8 @@ package com.evg.restapi.base.web;
 import com.evg.restapi.base.domain.dto.*;
 import com.evg.restapi.base.domain.services.AuthService;
 import com.evg.restapi.base.domain.services.UsuarioService;
+import com.evg.restapi.base.exceptions.CustomRestApiException;
+import com.evg.restapi.base.exceptions.errors.RestApiErrorCode;
 import com.evg.restapi.base.security.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +31,11 @@ public class AuthController {
             UsuarioDto usuario = usuarioService.findByCorreo(usuarioDto.getCorreo());
             JwtDTO jwtDTO = new JwtDTO(jwt.getToken(), usuario.getCorreo(), usuario.getId(), usuario.getRol().getNombre());
             return new ResponseEntity<>(jwtDTO, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        } catch (CustomRestApiException e) {
+            throw new CustomRestApiException(HttpStatus.BAD_REQUEST, e.getError().getCode(), "Usuario inactivo");
+        }
+        catch (Exception e) {
+            throw new CustomRestApiException(HttpStatus.BAD_REQUEST, RestApiErrorCode.USER_INCORRECT, "Usuario o contraseña incorrectos");
         }
     }
 
