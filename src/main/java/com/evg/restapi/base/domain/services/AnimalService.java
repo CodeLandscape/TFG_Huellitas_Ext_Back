@@ -3,6 +3,7 @@ package com.evg.restapi.base.domain.services;
 import com.evg.restapi.base.domain.dto.AnimalDto;
 import org.springframework.data.domain.Page;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface AnimalService {
@@ -15,4 +16,6 @@ public interface AnimalService {
     public AnimalDto findById(Integer id);
 
     void update(Integer id, AnimalDto animal);
+
+    List<AnimalDto> findByAsociacionId(Integer idAsociacion);
 }

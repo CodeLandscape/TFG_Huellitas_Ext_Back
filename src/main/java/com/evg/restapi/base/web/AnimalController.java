@@ -78,4 +78,9 @@ public class AnimalController {
         }
     }
 
+    @GetMapping("/asociacion/{idAsociacion}")
+    public List<AnimalDto> getAnimalsByAsociacionId(@PathVariable Integer idAsociacion) {
+        return animalService.findByAsociacionId(idAsociacion);
+    }
+
 }

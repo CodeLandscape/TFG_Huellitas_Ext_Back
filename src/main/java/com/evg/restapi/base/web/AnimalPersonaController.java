@@ -21,4 +21,24 @@ public class AnimalPersonaController {
         animal.setId(idAnimal);
         return animalPersonaService.findByAnimalId(animal);
     }
+
+//    @DeleteMapping("/{idPersona}/{idAnimal}")
+//    public void deleteAnimalPersona(@PathVariable Integer idPersona, @PathVariable Integer idAnimal) {
+//        animalPersonaService.deleteById(idPersona, idAnimal);
+//    }
+
+    @DeleteMapping("/deleteSolicitud")
+    public void deleteAnimalPersona(@RequestBody AnimalPersonaDto animalPersonaDto) {
+        animalPersonaService.deleteById(animalPersonaDto);
+    }
+
+    @GetMapping("/all")
+    public List<AnimalPersonaDto> getAllAnimalPersonas() {
+        return animalPersonaService.findAll();
+    }
+
+    @GetMapping("/persona/{idPersona}")
+    public List<AnimalPersonaDto> getAnimalPersonasByPersonaId(@PathVariable Integer idPersona) {
+        return animalPersonaService.findByIdPersonaId(idPersona);
+    }
 }
