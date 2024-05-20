@@ -21,10 +21,11 @@ public class UsuarioController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody UsuarioDto usuario) {
+    @PutMapping(value = "update")
+    public ResponseEntity<?> update(HttpServletRequest request, @RequestBody UsuarioDto usuario) {
         try {
-            return new ResponseEntity<>(usuarioService.update(id, usuario), HttpStatus.OK);
+            String email = jwtUtil.extractUsername(request.getHeader("Authorization").replace("Bearer ", ""));
+            return new ResponseEntity<>(usuarioService.update(email, usuario), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,6 +41,13 @@ public class UsuarioController {
     @PutMapping("alta/{id}")
     public ResponseEntity<Void> activarUsuario(@PathVariable Integer id) {
         usuarioService.activarUsuario(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("baja-sesion")
+    public ResponseEntity<Void> desactivarUsuarioSesion(HttpServletRequest request) {
+        String email = jwtUtil.extractUsername(request.getHeader("Authorization").replace("Bearer ", ""));
+        usuarioService.desactivarUsuarioEmail(email);
         return ResponseEntity.noContent().build();
     }
 

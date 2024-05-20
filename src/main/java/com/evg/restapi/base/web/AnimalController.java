@@ -2,11 +2,13 @@ package com.evg.restapi.base.web;
 
 import com.evg.restapi.base.domain.dto.AnimalDto;
 import com.evg.restapi.base.domain.services.AnimalService;
+import com.evg.restapi.base.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -17,11 +19,14 @@ public class AnimalController {
 
     @Autowired
     private AnimalService animalService;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping(value = "/add")
-    public ResponseEntity<?> add(@RequestBody AnimalDto animal) {
+    public ResponseEntity<?> add(HttpServletRequest request, @RequestBody AnimalDto animal) {
         try {
-            return new ResponseEntity<>(animalService.add(animal), HttpStatus.OK);
+            String email = jwtUtil.extractUsername(request.getHeader("Authorization").replace("Bearer ", ""));
+            return new ResponseEntity<>(animalService.add(animal, email), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

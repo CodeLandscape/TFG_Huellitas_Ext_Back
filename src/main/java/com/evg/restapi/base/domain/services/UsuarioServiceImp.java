@@ -21,9 +21,9 @@ public class UsuarioServiceImp implements UsuarioService{
     private ProvinciaRepository provinciaRepository;
 
     @Transactional
-    public UsuarioDto update(Integer id, UsuarioDto usuarioDto) {
+    public UsuarioDto update(String email, UsuarioDto usuarioDto) {
         this.validarUsuario(usuarioDto);
-        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        Usuario usuario = usuarioRepository.findByCorreo(email);
 
         usuario.setTlf(usuarioDto.getTlf());
         usuario.setDireccion(usuarioDto.getDireccion());
@@ -79,5 +79,12 @@ public class UsuarioServiceImp implements UsuarioService{
     @Override
     public UsuarioDto findByCorreo(String correo) {
         return new UsuarioDto(usuarioRepository.findByCorreo(correo));
+    }
+
+    @Override
+    public void desactivarUsuarioEmail(String email) {
+        Usuario usuario = usuarioRepository.findByCorreo(email);
+        usuario.desactivar();
+        usuarioRepository.save(usuario);
     }
 }

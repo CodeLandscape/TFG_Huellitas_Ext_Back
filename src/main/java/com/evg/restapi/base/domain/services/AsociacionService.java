@@ -10,4 +10,6 @@ public interface AsociacionService {
     public List<AsociacionDto> findAll();
 
     public void desactivarAsociacion(Integer id);
+
+    public AsociacionDto getAsociacionSesion(String email);
 }

@@ -16,6 +16,11 @@ public class RolDto implements Serializable {
     @NotNull
     String nombre;
 
+    public RolDto() {
+        this.id = null;
+        this.nombre = null;
+    }
+
     public RolDto(Rol rol) {
         this.id = rol.getId();
         this.nombre = rol.getNombre().name();

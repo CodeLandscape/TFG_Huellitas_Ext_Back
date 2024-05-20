@@ -19,7 +19,17 @@ public class PersonaServiceImp implements PersonaService {
     public PersonaDto findById(Integer id) {
         Persona persona = personaRepository.findById(id).orElse(null);
         if (persona != null) {
-            return new PersonaDto(persona);
+            return new PersonaDto(persona, persona.getIdUsuario());
+        }
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public PersonaDto getPersonaSesion(String email) {
+        Persona persona = personaRepository.findByEmailUsuario(email);
+        if (persona != null) {
+            return new PersonaDto(persona, persona.getIdUsuario());
         }
         return null;
     }

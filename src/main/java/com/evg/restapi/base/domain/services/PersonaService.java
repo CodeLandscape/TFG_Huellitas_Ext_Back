@@ -4,4 +4,6 @@ import com.evg.restapi.base.domain.dto.PersonaDto;
 
 public interface PersonaService {
     public PersonaDto findById(Integer id);
+
+    public PersonaDto getPersonaSesion(String email);
 }

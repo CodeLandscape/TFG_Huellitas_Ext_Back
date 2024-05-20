@@ -5,7 +5,7 @@ import com.evg.restapi.base.domain.dto.UsuarioDto;
 import java.util.List;
 
 public interface UsuarioService {
-    UsuarioDto update(Integer id, UsuarioDto usuarioDto);
+    UsuarioDto update(String email, UsuarioDto usuarioDto);
 
     void desactivarUsuario(Integer id);
 
@@ -15,4 +15,6 @@ public interface UsuarioService {
     List<UsuarioDto> findAll();
 
     UsuarioDto findByCorreo(String correo);
+
+    void desactivarUsuarioEmail(String email);
 }

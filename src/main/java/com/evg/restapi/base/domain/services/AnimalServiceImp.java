@@ -29,8 +29,8 @@ public class AnimalServiceImp implements AnimalService {
     private AsociacionRepository asociacionRepository;
 
     @Transactional
-    public AnimalDto add(AnimalDto animal) {
-        AsociacionDto asociacion = new AsociacionDto(asociacionRepository.findById(animal.getAsociacion().getId()).orElse(null));
+    public AnimalDto add(AnimalDto animal, String email) {
+        AsociacionDto asociacion = new AsociacionDto(asociacionRepository.findByEmailUsuario(email));
         animal.setAsociacion(asociacion);
         animal.setActivo(true);
         animal.setFechaAdopcion(null);

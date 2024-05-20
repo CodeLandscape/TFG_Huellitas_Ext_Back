@@ -5,6 +5,7 @@ import com.evg.restapi.base.domain.dao.UsuarioRepository;
 import com.evg.restapi.base.domain.dto.AsociacionDto;
 import com.evg.restapi.base.domain.dto.UsuarioDto;
 import com.evg.restapi.base.domain.entity.Asociacion;
+import com.evg.restapi.base.domain.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,5 +50,15 @@ public class AsociacionServiceImp implements AsociacionService {
         Asociacion asociacion = asociacionRepository.findById(id).orElseThrow(() -> new RuntimeException("Asociacion no encontrada"));
         asociacion.getIdUsuario().desactivar();
         asociacionRepository.save(asociacion);
+    }
+
+    @Override
+    @Transactional
+    public AsociacionDto getAsociacionSesion(String email) {
+        Asociacion asociacion = asociacionRepository.findByEmailUsuario(email);
+        if (asociacion != null) {
+            return new AsociacionDto(asociacion);
+        }
+        return null;
     }
 }
