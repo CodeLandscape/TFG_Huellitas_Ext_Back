@@ -49,4 +49,11 @@ public class AnimalPersonaId implements Serializable {
         return Objects.hash(idAnimal, idPersona);
     }
 
+    public void setAnimal(Animal animal) {
+        this.idAnimal = animal.getId();
+    }
+
+    public void setPersona(Persona persona) {
+        this.idPersona = persona.getId();
+    }
 }

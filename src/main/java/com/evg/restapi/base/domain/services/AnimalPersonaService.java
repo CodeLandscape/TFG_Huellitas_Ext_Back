@@ -13,4 +13,6 @@ public interface AnimalPersonaService {
 
     List <AnimalPersonaDto> findAll();
     List <AnimalPersonaDto> findByIdPersonaId(Integer idPersona);
+
+    AnimalPersonaDto add(AnimalPersonaDto animalPersonaDto);
 }

@@ -4,6 +4,8 @@ import com.evg.restapi.base.domain.dto.AnimalPersonaDto;
 import com.evg.restapi.base.domain.entity.Animal;
 import com.evg.restapi.base.domain.services.AnimalPersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +32,17 @@ public class AnimalPersonaController {
     @DeleteMapping("/deleteSolicitud")
     public void deleteAnimalPersona(@RequestBody AnimalPersonaDto animalPersonaDto) {
         animalPersonaService.deleteById(animalPersonaDto);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<AnimalPersonaDto> addAnimalPersona(@RequestBody AnimalPersonaDto animalPersonaDto) {
+        try {
+            AnimalPersonaDto addedAnimalPersona = animalPersonaService.add(animalPersonaDto);
+            return new ResponseEntity<>(addedAnimalPersona, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/all")
