@@ -12,4 +12,8 @@ public interface ArchivoAsociacionService {
     public ArchivosAsociacion uploadFile(MultipartFile file, String nombre, String descripcion, String emailAsociacion);
 
     public void deleteFile(Integer id);
+
+    public ArchivosAsociacionDto findInfoByArchivoId(Integer id);
+
+    public ArchivosAsociacion editFile(Integer id, String nombre, String descripcion, MultipartFile file);
 }

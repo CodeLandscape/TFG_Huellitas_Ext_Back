@@ -103,4 +103,48 @@ public class ArchivoAsociacionServiceImp implements ArchivoAsociacionService {
         file.delete();
         archivosAsociacionRepository.delete(archivosAsociacion);
     }
+
+    @Override
+    @Transactional
+    public ArchivosAsociacionDto findInfoByArchivoId(Integer id) {
+        ArchivosAsociacion archivosAsociacion = archivosAsociacionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Archivo no encontrado"));
+        return new ArchivosAsociacionDto(archivosAsociacion);
+    }
+
+    @Override
+    @Transactional
+    public ArchivosAsociacion editFile(Integer id, String nombre, String descripcion, MultipartFile file) {
+        ArchivosAsociacion archivosAsociacion = archivosAsociacionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Archivo no encontrado"));
+        if (nombre != null) {
+            archivosAsociacion.setNombre(nombre);
+        }
+        if (descripcion != null) {
+            archivosAsociacion.setDescripcion(descripcion);
+        }
+        if (file != null) {
+            try {
+                Path filePath = new File("../archivos/asociacion/" + archivosAsociacion.getIdAsociacion().getIdUsuario().getId()).toPath();
+                Files.createDirectories(filePath);
+
+                // Delete the existing file
+                Path existingFilePath = Path.of(archivosAsociacion.getFicheroRuta() + '/' + archivosAsociacion.getFicheroNombre());
+                if (Files.exists(existingFilePath)) {
+                    Files.delete(existingFilePath);
+                }
+
+                String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+
+                String uniqueFileName = UUID.randomUUID().toString() + extension;
+
+                Files.copy(file.getInputStream(), filePath.resolve(uniqueFileName));
+
+                archivosAsociacion.setFicheroRuta(filePath.toString());
+                archivosAsociacion.setFicheroNombre(uniqueFileName);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+        return archivosAsociacionRepository.save(archivosAsociacion);
+    }
 }
