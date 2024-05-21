@@ -80,4 +80,9 @@ public class UsuarioServiceImp implements UsuarioService{
     public UsuarioDto findByCorreo(String correo) {
         return new UsuarioDto(usuarioRepository.findByCorreo(correo));
     }
+
+    @Override
+    public UsuarioDto findById(Integer id) {
+        return new UsuarioDto(usuarioRepository.findById(id).orElse(null));
+    }
 }

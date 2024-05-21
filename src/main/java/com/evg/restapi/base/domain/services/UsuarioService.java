@@ -15,4 +15,6 @@ public interface UsuarioService {
     List<UsuarioDto> findAll();
 
     UsuarioDto findByCorreo(String correo);
+
+    UsuarioDto findById(Integer id);
 }
