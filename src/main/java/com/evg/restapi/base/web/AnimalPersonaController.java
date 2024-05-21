@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/animalPersona")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AnimalPersonaController {
 
     @Autowired
@@ -40,5 +41,10 @@ public class AnimalPersonaController {
     @GetMapping("/persona/{idPersona}")
     public List<AnimalPersonaDto> getAnimalPersonasByPersonaId(@PathVariable Integer idPersona) {
         return animalPersonaService.findByIdPersonaId(idPersona);
+    }
+
+    @PutMapping("/updateEstado")
+    public void updateEstadoAnimalPersona(@RequestBody AnimalPersonaDto animalPersonaDto) {
+        animalPersonaService.updateEstado(animalPersonaDto);
     }
 }
