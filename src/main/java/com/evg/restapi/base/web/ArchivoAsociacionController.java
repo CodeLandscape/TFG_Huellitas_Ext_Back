@@ -23,7 +23,6 @@ public class ArchivoAsociacionController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // Método para buscar imágenes por ID de animal
     @PreAuthorize("hasRole('ROLE_ASOC')")
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> findByArchivoId(@PathVariable Integer id) {
@@ -55,7 +54,6 @@ public class ArchivoAsociacionController {
         }
     }
 
-    // Método para subir una imagen
     @PreAuthorize("hasRole('ROLE_ASOC')")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadFile(@RequestParam(name = "file") MultipartFile file,
