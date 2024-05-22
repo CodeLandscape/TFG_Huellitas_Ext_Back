@@ -15,4 +15,6 @@ public interface AnimalPersonaService {
     List <AnimalPersonaDto> findByIdPersonaId(Integer idPersona);
 
     AnimalPersonaDto add(AnimalPersonaDto animalPersonaDto);
+
+    List<AnimalPersonaDto> findByAsociacionId(Integer idAsociacion);
 }

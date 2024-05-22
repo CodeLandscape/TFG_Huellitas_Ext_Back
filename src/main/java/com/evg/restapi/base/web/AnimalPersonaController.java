@@ -55,4 +55,9 @@ public class AnimalPersonaController {
     public List<AnimalPersonaDto> getAnimalPersonasByPersonaId(@PathVariable Integer idPersona) {
         return animalPersonaService.findByIdPersonaId(idPersona);
     }
+
+    @GetMapping("/asociacion/{idAsociacion}")
+    public List<AnimalPersonaDto> getAnimalPersonasByAsociacionId(@PathVariable Integer idAsociacion) {
+        return animalPersonaService.findByAsociacionId(idAsociacion);
+    }
 }

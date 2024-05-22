@@ -2,6 +2,7 @@ package com.evg.restapi.base.domain.services;
 
 import com.evg.restapi.base.domain.dao.AnimalPersonaRepository;
 import com.evg.restapi.base.domain.dao.AnimalRepository;
+import com.evg.restapi.base.domain.dao.AsociacionRepository;
 import com.evg.restapi.base.domain.dao.PersonaRepository;
 import com.evg.restapi.base.domain.dto.AnimalPersonaDto;
 import com.evg.restapi.base.domain.dto.AnimalDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,9 @@ public class AnimalPersonaServiceImp implements AnimalPersonaService {
 
     @Autowired
     private PersonaRepository personaRepository;
+
+    @Autowired
+    private AsociacionRepository asociacionRepository;
 
     @Override
     @Transactional
@@ -94,6 +99,15 @@ public class AnimalPersonaServiceImp implements AnimalPersonaService {
         animalPersona.setEstado(false);
         animalPersonaRepository.save(animalPersona);
         return convertToDto(animalPersona);
+    }
+
+    @Override
+    @Transactional
+    public List<AnimalPersonaDto> findByAsociacionId(Integer idAsociacion) {
+        return animalPersonaRepository.findByIdAnimal_IdAsociacion(this.asociacionRepository.findById(idAsociacion).get() )
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     private AnimalPersonaDto convertToDto(AnimalPersona animalPersona) {
