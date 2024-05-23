@@ -50,6 +50,14 @@ public class AnimalPersonaServiceImp implements AnimalPersonaService {
         animalPersonaRepository.deleteById(id);
     }
 
+    @Override
+    public void updateEstado(AnimalPersonaDto animalPersonaDto) {
+        AnimalPersonaId id = new AnimalPersonaId(animalPersonaDto.getIdPersona().getId(), animalPersonaDto.getIdAnimal().getId());
+        AnimalPersona animalPersona = animalPersonaRepository.findById(id).orElseThrow(() -> new RuntimeException("AnimalPersona no encontrado"));
+        animalPersona.setEstado(true);
+        animalPersonaRepository.save(animalPersona);
+    }
+
 //    @Override
 //    public void deleteById(AnimalPersonaDto animalPersonaDto) {
 //        AnimalPersonaId id = new AnimalPersonaId(animalPersonaDto.getIdPersona().getId(), animalPersonaDto.getIdAnimal().getId());

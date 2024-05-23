@@ -56,6 +56,11 @@ public class AnimalPersonaController {
         return animalPersonaService.findByIdPersonaId(idPersona);
     }
 
+    @PutMapping("/updateEstado")
+    public void updateEstadoAnimalPersona(@RequestBody AnimalPersonaDto animalPersonaDto) {
+        animalPersonaService.updateEstado(animalPersonaDto);
+    }
+
     @GetMapping("/asociacion/{idAsociacion}")
     public List<AnimalPersonaDto> getAnimalPersonasByAsociacionId(@PathVariable Integer idAsociacion) {
         return animalPersonaService.findByAsociacionId(idAsociacion);

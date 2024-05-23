@@ -17,4 +17,6 @@ public interface AnimalPersonaService {
     AnimalPersonaDto add(AnimalPersonaDto animalPersonaDto);
 
     List<AnimalPersonaDto> findByAsociacionId(Integer idAsociacion);
+    void updateEstado(AnimalPersonaDto animalPersonaDto);
+
 }
