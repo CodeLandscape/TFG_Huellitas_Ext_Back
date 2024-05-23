@@ -6,5 +6,5 @@ import com.evg.restapi.base.domain.entity.Persona;
 public interface PersonaService {
     public PersonaDto findById(Integer id);
 
-    public Persona findByUsuarioId(Integer id);
+    public PersonaDto findByUsuarioId(Integer id);
 }

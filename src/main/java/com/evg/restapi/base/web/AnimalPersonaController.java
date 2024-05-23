@@ -30,7 +30,7 @@ public class AnimalPersonaController {
 //        animalPersonaService.deleteById(idPersona, idAnimal);
 //    }
 
-    @DeleteMapping("/deleteSolicitud")
+    @PutMapping("/deleteSolicitud")
     public void deleteAnimalPersona(@RequestBody AnimalPersonaDto animalPersonaDto) {
         animalPersonaService.deleteById(animalPersonaDto);
     }

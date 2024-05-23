@@ -31,10 +31,12 @@ public class PersonaServiceImp implements PersonaService {
 
     @Transactional
     @Override
-    public Persona findByUsuarioId(Integer id) {
+    public PersonaDto findByUsuarioId(Integer id) {
         Usuario usuario = usuarioRepository.findById(id).orElse(null);
         Persona persona = personaRepository.findPersonaByIdUsuario(usuario);
-        return persona;
+        System.out.println(persona);
+        PersonaDto personaDto = new PersonaDto(persona);
+        return personaDto;
 //        if (persona != null) {
 //            return new PersonaDto(persona);
 //        }

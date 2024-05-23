@@ -59,6 +59,11 @@ public class PersonaDto implements Serializable {
     }
 
     public PersonaDto(Persona persona) {
+        this.id = persona.getId();
+        this.usuario = new UsuarioDto(persona.getIdUsuario());
+        this.nombre = persona.getNombre();
+        this.apellidos = persona.getApellidos();
+        this.dni = persona.getDni();
     }
 
     public Persona toEntity() {
