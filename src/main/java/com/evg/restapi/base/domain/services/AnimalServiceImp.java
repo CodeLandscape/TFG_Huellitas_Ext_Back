@@ -6,6 +6,7 @@ import com.evg.restapi.base.domain.dao.RazaRepository;
 import com.evg.restapi.base.domain.dto.AnimalDto;
 import com.evg.restapi.base.domain.dto.AsociacionDto;
 import com.evg.restapi.base.domain.entity.Animal;
+import com.evg.restapi.base.domain.entity.Asociacion;
 import com.evg.restapi.base.domain.entity.Raza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -42,9 +43,9 @@ public class AnimalServiceImp implements AnimalService {
 
     @Transactional
     @Override
-    public Page<AnimalDto> findAll(String strSearch, List<Long> idTipoAnimal, List<Long> IdRaza, int page, int limit, String sort, String order) {
+    public Page<AnimalDto> findAll(Boolean filtrarPorAsociacion, String email, String strSearch, List<Long> idTipoAnimal, List<Long> IdRaza, int page, int limit, String sort, String order) {
 
-        Specification<Animal> spec = this.animalSpecification(strSearch, idTipoAnimal, IdRaza);
+        Specification<Animal> spec = this.animalSpecification(filtrarPorAsociacion, email, strSearch, idTipoAnimal, IdRaza);
 
         Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.fromString(order), sort));
         Page<Animal> animalPage = animalRepository.findAll(spec, pageable);
@@ -86,9 +87,13 @@ public class AnimalServiceImp implements AnimalService {
         animalRepository.save(animalEntity);
     }
 
-    private Specification<Animal> animalSpecification(String strSearch, List<Long> idTipoAnimal, List<Long> IdRaza) {
+    private Specification<Animal> animalSpecification(Boolean filtrarPorAsociacion, String email, String strSearch, List<Long> idTipoAnimal, List<Long> IdRaza) {
         return (Specification<Animal>) (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            if (filtrarPorAsociacion != null && filtrarPorAsociacion) {
+                Asociacion asociacion = asociacionRepository.findByEmailUsuario(email);
+                predicates.add(criteriaBuilder.equal(root.get("idAsociacion"), asociacion));
+            }
             if (strSearch != null && !strSearch.isEmpty()) {
                 predicates.add(criteriaBuilder.or(
                         criteriaBuilder.like(root.get("nombre"), "%" + strSearch + "%")

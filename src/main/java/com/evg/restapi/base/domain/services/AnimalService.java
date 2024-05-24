@@ -8,7 +8,7 @@ import java.util.List;
 public interface AnimalService {
     public AnimalDto add(AnimalDto animal, String email);
 
-    public Page<AnimalDto> findAll(String strSearch, List<Long> idTipoAnimal, List<Long> IdRaza, int page, int limit, String sort, String order);
+    public Page<AnimalDto> findAll(Boolean filtrarPorAsociacion, String email, String strSearch, List<Long> idTipoAnimal, List<Long> IdRaza, int page, int limit, String sort, String order);
 
     public void delete(Integer id);
 

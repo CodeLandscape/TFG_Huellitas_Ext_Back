@@ -34,15 +34,18 @@ public class AnimalController {
     }
 
     @GetMapping(value = "/all")
-    public ResponseEntity<?> fidndAll(@RequestParam(required = false) String strSearch,
-                                     @RequestParam(required = false) List<Long> idTipoAnimal,
-                                     @RequestParam(required = false) List<Long> idRaza,
-                                     @RequestParam(defaultValue = "0") int page,
-                                     @RequestParam(defaultValue = "6") int limit,
-                                     @RequestParam(defaultValue = "id") String sort,
-                                     @RequestParam(defaultValue = "asc") String order) {
+    public ResponseEntity<?> fidndAll(@RequestParam(required = false) Boolean filtrarPorAsociacion,
+                                      @RequestParam(required = false) String strSearch,
+                                      @RequestParam(required = false) List<Long> idTipoAnimal,
+                                      @RequestParam(required = false) List<Long> idRaza,
+                                      @RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "6") int limit,
+                                      @RequestParam(defaultValue = "id") String sort,
+                                      @RequestParam(defaultValue = "asc") String order,
+                                      HttpServletRequest request) {
         try {
-            return new ResponseEntity<>(animalService.findAll(strSearch, idTipoAnimal, idRaza, page, limit, sort, order), HttpStatus.OK);
+            String email = jwtUtil.extractUsername(request.getHeader("Authorization").replace("Bearer ", ""));
+            return new ResponseEntity<>(animalService.findAll(filtrarPorAsociacion, email, strSearch, idTipoAnimal, idRaza, page, limit, sort, order), HttpStatus.OK);
         } catch (
                 Exception e) {
             e.printStackTrace();
