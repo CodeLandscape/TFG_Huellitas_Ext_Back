@@ -7,5 +7,16 @@ import java.util.List;
 
 public interface AnimalPersonaService {
     List<AnimalPersonaDto> findByAnimalId(Animal idAnimal);
+    void deleteById(AnimalPersonaDto animalPersonaDto);
+
+//    void deleteById(AnimalPersonaDto animalPersonaDto);
+
+    List <AnimalPersonaDto> findAll();
+    List <AnimalPersonaDto> findByIdPersonaId(Integer idPersona);
+
+    AnimalPersonaDto add(AnimalPersonaDto animalPersonaDto);
+
+    List<AnimalPersonaDto> findByAsociacionId(Integer idAsociacion);
+    void updateEstado(AnimalPersonaDto animalPersonaDto);
 
 }

@@ -18,6 +18,7 @@ import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AnimalServiceImp implements AnimalService {
@@ -109,5 +110,15 @@ public class AnimalServiceImp implements AnimalService {
             predicates.add(criteriaBuilder.equal(root.get("activo"), true));
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         };
+    }
+
+    @Override
+    @Transactional
+    public List<AnimalDto> findByAsociacionId(Integer idAsociacion) {
+        List<Animal> animals = animalRepository.findByIdAsociacion_Id(idAsociacion);
+        // Convertir a AnimalDto y devolver la lista
+        return animals.stream()
+                .map(AnimalDto::new)
+                .collect(Collectors.toList());
     }
 }

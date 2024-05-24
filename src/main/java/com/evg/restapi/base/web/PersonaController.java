@@ -41,5 +41,16 @@ public class PersonaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+    @GetMapping(value = "/usuario/{id}")
+    public ResponseEntity<?> getByUsuarioId(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<>(personaService.findByUsuarioId(id), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }

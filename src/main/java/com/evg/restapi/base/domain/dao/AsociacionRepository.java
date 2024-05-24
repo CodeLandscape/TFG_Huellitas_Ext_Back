@@ -16,4 +16,6 @@ public interface AsociacionRepository extends JpaRepository<Asociacion, Integer>
 
     @Query("SELECT a FROM Asociacion a WHERE a.idUsuario.correo = :email")
     Asociacion findByEmailUsuario(String email);
+
+    Asociacion findAsociacionByIdUsuario(Usuario usuario);
 }

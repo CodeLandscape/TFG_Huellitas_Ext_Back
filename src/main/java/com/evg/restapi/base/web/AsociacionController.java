@@ -41,6 +41,16 @@ public class AsociacionController {
         }
     }
 
+    @GetMapping(value = "/usuario/{id}")
+    public ResponseEntity<?> getByUsuarioId(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<>(asociacionService.findByUsuarioId(id), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(value = "/all")
     public ResponseEntity<?> getAll() {
         try {

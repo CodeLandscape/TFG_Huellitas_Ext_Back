@@ -26,6 +26,15 @@ public class AnimalPersonaId implements Serializable {
     @Column(name = "id_Animal", nullable = false)
     private Integer idAnimal;
 
+    public AnimalPersonaId(Integer idPersona, Integer idAnimal) {
+        this.idPersona = idPersona;
+        this.idAnimal = idAnimal;
+    }
+
+    public AnimalPersonaId() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,4 +49,11 @@ public class AnimalPersonaId implements Serializable {
         return Objects.hash(idAnimal, idPersona);
     }
 
+    public void setAnimal(Animal animal) {
+        this.idAnimal = animal.getId();
+    }
+
+    public void setPersona(Persona persona) {
+        this.idPersona = persona.getId();
+    }
 }

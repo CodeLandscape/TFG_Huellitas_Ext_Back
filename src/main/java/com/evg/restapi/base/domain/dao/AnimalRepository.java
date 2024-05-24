@@ -7,8 +7,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, Integer> {
     Page<Animal> findAll(Specification<Animal> specification, Pageable pageable);
+    List<Animal> findByIdAsociacion_Id(Integer idAsociacion);
 
 }

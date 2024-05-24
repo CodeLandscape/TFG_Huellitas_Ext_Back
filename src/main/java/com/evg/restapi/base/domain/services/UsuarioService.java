@@ -17,4 +17,6 @@ public interface UsuarioService {
     UsuarioDto findByCorreo(String correo);
 
     void desactivarUsuarioEmail(String email);
+
+    UsuarioDto findById(Integer id);
 }

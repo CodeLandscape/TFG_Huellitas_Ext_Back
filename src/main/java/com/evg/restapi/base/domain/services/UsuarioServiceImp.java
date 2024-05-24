@@ -87,4 +87,9 @@ public class UsuarioServiceImp implements UsuarioService{
         usuario.desactivar();
         usuarioRepository.save(usuario);
     }
+
+    @Override
+    public UsuarioDto findById(Integer id) {
+        return new UsuarioDto(usuarioRepository.findById(id).orElse(null));
+    }
 }

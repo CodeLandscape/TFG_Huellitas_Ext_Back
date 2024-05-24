@@ -62,6 +62,16 @@ public class UsuarioController {
         }
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> findById(@PathVariable Integer id) {
+        try {
+            return new ResponseEntity<>(usuarioService.findById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @GetMapping("/authenticate")
     public ResponseEntity<?> authenticate(HttpServletRequest request) {
