@@ -72,7 +72,7 @@ dependencies {
 	implementation 'com.oracle.database.jdbc:ojdbc11:21.9.0.0'
 
 	// Driver mysql
-	implementation "mysql:mysql-connector-java:6.0.6"
+	implementation 'mysql:mysql-connector-java:8.0.28'
 
 	// H2 In-Memory jdbc driver test database https://www.h2database.com/html/main.html
 	implementation "com.h2database:h2"
