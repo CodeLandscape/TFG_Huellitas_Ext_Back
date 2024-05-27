@@ -21,7 +21,7 @@ jwt:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
-    enabled: ${OPENAPI_DOCS_ENABLED:true}
+    enabled: true
     supported-submit-methods: []
 
 spring:
@@ -29,6 +29,9 @@ spring:
     # Name used to register the app in the discovery server, aka the app ID.
     # Must match the K8s service name
     name: base-api
+
+    resources:
+           add-mappings: true
     # INSTANCE_ID is an env var holding the K8s pod ID
     instance-id: ${INSTANCE_ID:${spring.application.name}}
 
@@ -123,9 +126,9 @@ spring:
       on-profile: dev
 
   datasource:
-    jdbcUrl: jdbc:mysql://localhost:3306/huellitas_extremenas
-    username: USERNAME
-    password: PASSWORD
+    jdbcUrl: jdbc:mysql://03.proyectos.esvirgua.com:3306/proyectosevg_BD1-03?useSSL=false
+    username: proyectosevg_03
+    password: jzj7~d@,ND)n
     hikari:
       connection-timeout: 30000
     driver-class-name: com.mysql.cj.jdbc.Driver
