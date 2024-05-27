@@ -40,6 +40,7 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	//dependency para swagger
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
