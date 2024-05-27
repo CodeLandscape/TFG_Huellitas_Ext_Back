@@ -75,7 +75,7 @@ public class DocumentoAnimalServiceImp implements DocumentoAnimalService {
             throw new IllegalArgumentException("Animal no encontrado");
         }
         try {
-            Path path = Path.of("../archivos/animal" + animal.getId() + "/documentos/");
+            Path path = Path.of("../archivos/animal/" + animal.getId() + "/documentos/");
             Files.createDirectories(path);
 
             String nombreFichero = UUID.randomUUID().toString();
