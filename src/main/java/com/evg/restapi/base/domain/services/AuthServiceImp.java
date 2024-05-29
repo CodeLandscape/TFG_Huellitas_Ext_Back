@@ -54,6 +54,9 @@ public class AuthServiceImp implements AuthService {
         if (personaRepository.findByDni(personaDto.getDni()) != null) {
             throw new DataIntegrityViolationException("DNI ya registrado");
         }
+        if (usuarioRepository.findByTlf(personaDto.getTlf()) != null) {
+            throw new DataIntegrityViolationException("Teléfono ya registrado");
+        }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Usuario usuario = new Usuario();
@@ -88,6 +91,12 @@ public class AuthServiceImp implements AuthService {
 
         if (asociacionRepository.findByCif(asociacionDto.getCif()) != null) {
             throw new DataIntegrityViolationException("CIF ya registrado");
+        }
+        if (usuarioRepository.findByCorreo(asociacionDto.getCorreo()) != null) {
+            throw new DataIntegrityViolationException("Correo ya registrado");
+        }
+        if (usuarioRepository.findByTlf(asociacionDto.getTlf()) != null) {
+            throw new DataIntegrityViolationException("Teléfono ya registrado");
         }
         usuario.setCorreo(asociacionDto.getCorreo());
         usuario.setDireccion(asociacionDto.getDireccion());
