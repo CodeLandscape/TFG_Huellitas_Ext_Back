@@ -169,7 +169,7 @@ public class AuthServiceImp implements AuthService {
                     .claim("roles", userInDB.getIdRol().getNombre())
                     .claim("id", userInDB.getId())
                     .claim("activo", userInDB.getActivo())
-                    .setExpiration(new Date(System.currentTimeMillis() + 864000000)) // 10 days
+                    .setExpiration(new Date(System.currentTimeMillis() + 3600000 )) // 1 hora
                     .signWith(SignatureAlgorithm.HS512, jwtSecret)
                     .compact();
 
