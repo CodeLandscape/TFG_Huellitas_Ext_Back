@@ -1,14 +1,12 @@
-# Usa una imagen base de Java
-FROM openjdk:17-jdk-alpine
-
-# Establece el directorio de trabajo
+# Usa una imagen base de Gradle para compilar tu aplicación
+FROM gradle:jdk17 AS build
 WORKDIR /app
+COPY . /app
+RUN gradle build
 
-# Copia el archivo JAR generado a la imagen Docker
-COPY build/libs/huellitas-backend-0.0.1-SNAPSHOT.jar app.jar
-
-# Expone el puerto en el que la aplicación Spring Boot se ejecutará
+# Cambia a una imagen base de Java para ejecutar tu aplicación
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/build/libs/huellitas-backend-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Comando para ejecutar la aplicación
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
