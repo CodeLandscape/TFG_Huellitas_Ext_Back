@@ -43,7 +43,7 @@ spring:
     rest:
       default-media-type: application/json
   profiles:
-    active: dev
+    active: prod
 
   jmx:
     enabled: false # necesario para no obtener el siguiente error: Unable to register MBean [org.apache.tomcat.dbcp.dbcp2.BasicDataSource
