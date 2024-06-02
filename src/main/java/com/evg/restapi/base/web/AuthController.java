@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = "https://tfg-huellitas-ext-front.onrender.com")
 public class AuthController {
 
     @Autowired

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/raza")
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = "https://tfg-huellitas-ext-front.onrender.com")
 public class RazaController {
 
     @Autowired

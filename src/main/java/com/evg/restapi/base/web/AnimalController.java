@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://tfg-huellitas-ext-front.onrender.com")
 @RequestMapping("/animal")
 public class AnimalController {
 

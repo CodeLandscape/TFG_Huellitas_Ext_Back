@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://tfg-huellitas-ext-front.onrender.com")
 @RequestMapping(value = "/documento-animal")
 public class DocumentoAnimalController {
 

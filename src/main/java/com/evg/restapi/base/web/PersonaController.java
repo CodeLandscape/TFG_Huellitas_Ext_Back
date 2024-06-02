@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://tfg-huellitas-ext-front.onrender.com")
 @RequestMapping(value = "/persona")
 public class PersonaController {
 

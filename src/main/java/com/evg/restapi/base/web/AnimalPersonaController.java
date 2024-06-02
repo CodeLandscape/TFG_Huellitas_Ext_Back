@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = "https://tfg-huellitas-ext-front.onrender.com")
 @RestController
 @RequestMapping("/animalPersona")
 public class AnimalPersonaController {
