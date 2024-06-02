@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: huellitas-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:mysql://03.proyectos.esvirgua.com:3306/proyectosevg_BD1-03?useSSL=false
+      - key: SPRING_DATASOURCE_USERNAME
+        value: proyectosevg_03
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: jzj7~d@,ND)n
+    buildCommand: ./gradlew build
+    startCommand: java -jar build/libs/huellitas-backend-0.0.1-SNAPSHOT.jar
+    healthCheckPath: /actuator/health

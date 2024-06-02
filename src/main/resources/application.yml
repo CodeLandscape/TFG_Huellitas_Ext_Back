@@ -28,7 +28,7 @@ spring:
   application:
     # Name used to register the app in the discovery server, aka the app ID.
     # Must match the K8s service name
-    name: base-api
+    name: huellitas-backend
 
     resources:
            add-mappings: true
@@ -182,15 +182,11 @@ spring:
       on-profile: prod
 
   datasource:
-    jdbcUrl: url
-    username: username
-    password: password
-    driver-class-name: oracle.jdbc.OracleDriver
-    # Keep the connection alive if idle for a long time (needed in production)
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
     testWhileIdle: true
     validationQuery: SELECT 1
     minimum-idle: 1
     maximum-pool-size: 10
-
-
-
