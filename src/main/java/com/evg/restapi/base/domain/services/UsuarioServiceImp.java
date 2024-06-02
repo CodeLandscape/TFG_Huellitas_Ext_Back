@@ -6,6 +6,7 @@ import com.evg.restapi.base.domain.dao.ProvinciaRepository;
 import com.evg.restapi.base.domain.entity.Provincia;
 import com.evg.restapi.base.domain.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -50,6 +51,10 @@ public class UsuarioServiceImp implements UsuarioService{
         }
         if(provinciaRepository.findById(usuarioDto.getProvincia().getId()).orElse(null) == null){
             throw new IllegalArgumentException("La provincia no existe");
+        }
+        Usuario temp = usuarioRepository.findByCorreo(usuarioDto.getCorreo());
+        if (usuarioRepository.findByTlf(usuarioDto.getTlf()) != null && !usuarioDto.getTlf().equals(temp.getTlf())) {
+            throw new DataIntegrityViolationException("Teléfono ya registrado");
         }
     }
 
