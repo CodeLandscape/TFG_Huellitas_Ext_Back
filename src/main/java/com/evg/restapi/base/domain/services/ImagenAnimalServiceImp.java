@@ -52,32 +52,52 @@ public class ImagenAnimalServiceImp implements ImagenAnimalService {
     public ImagenAnimal uploadImage(MultipartFile file, Integer idAnimal) {
         // Verificar si los parámetros son válidos
         if (file == null || idAnimal == null) {
-            throw new IllegalArgumentException("Invalid parameters");
+            throw new IllegalArgumentException("Parámetros inválidos");
         }
         try {
+            // Buscar el animal
+            Animal animal = animalRepository.findById(idAnimal).orElseThrow(() -> new IllegalArgumentException("No se encontró un animal con el id dado"));
+
+            // Buscar las imágenes existentes para el animal
+            List<ImagenAnimal> existingImages = imagenAnimalRepository.findByIdAnimal(animal);
+
+            // Eliminar cada imagen existente del sistema de archivos y de la base de datos
+            for (ImagenAnimal existingImage : existingImages) {
+                File existingFile = new File(existingImage.getFicheroRuta());
+                existingFile.delete();
+                imagenAnimalRepository.delete(existingImage);
+            }
+
             // Crear directorios si no existen
             Path filePath = new File("../archivos/animal/"+idAnimal).toPath();
             Files.createDirectories(filePath);
-            // Usar "imagen" como nombre de archivo
+
+            // Usar "imagen" como el nombre del archivo
             String uniqueFilename = "imagen";
+
             // Obtener la extensión del archivo
             String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+
             // Combinar el nombre del archivo y la extensión
             String filenameWithExtension = uniqueFilename + extension;
+
             // Guardar el archivo en el sistema de archivos
             Files.copy(file.getInputStream(), filePath.resolve(filenameWithExtension), StandardCopyOption.REPLACE_EXISTING);
+
             // Obtener la ruta del archivo
             String rutaFichero = filePath.resolve(filenameWithExtension).toString();
+
             // Crear un nuevo documento de animal (imagen)
             ImagenAnimal imagenAnimal = new ImagenAnimal();
             imagenAnimal.setFicheroNombre(uniqueFilename);
             imagenAnimal.setFicheroRuta(rutaFichero);
             imagenAnimal.setFechaCreacion(Instant.now());
-            imagenAnimal.setIdAnimal(animalRepository.findById(idAnimal).get());
+            imagenAnimal.setIdAnimal(animal);
+
             // Guardar el documento en la base de datos
             imagenAnimalRepository.save(imagenAnimal);
         } catch (Exception e) {
-            throw new RuntimeException("Error uploading file");
+            throw new RuntimeException("Error al subir el archivo");
         }
         return null;
     }
