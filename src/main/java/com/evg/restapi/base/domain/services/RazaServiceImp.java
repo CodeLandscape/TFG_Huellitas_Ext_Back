@@ -48,7 +48,7 @@ public class RazaServiceImp implements RazaService{
                 ImagenAnimal imagenes = imagenAnimalRepository.findByIdAnimal_Id(animal.getId());
                 imagenAnimalRepository.delete(imagenes);
                 animalPersonaRepository.deleteByIdAnimal_Id(animal.getId());
-                documentoAnimalRepository.deleteByIdAnimal_Id(animal.getId());
+                documentoAnimalRepository.deleteByIdAnimal(animal);
                 animalRepository.delete(animal);
             });
             razaRepository.deleteById(id);

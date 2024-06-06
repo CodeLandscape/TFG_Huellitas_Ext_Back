@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DocumentoAnimalRepository extends JpaRepository<DocumentoAnimal, Integer> {
     DocumentoAnimal[] findAllByIdAnimal(Animal animal);
 
-    void deleteByIdAnimal_Id(Integer id);
+    void deleteByIdAnimal(Animal animal);
 }
