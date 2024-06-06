@@ -9,6 +9,7 @@ import com.evg.restapi.base.domain.entity.Raza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -35,6 +36,7 @@ public class RazaServiceImp implements RazaService{
     }
 
     @Override
+    @Transactional
     public void deleteRaza(Integer id) {
         List<Animal> animals = animalRepository.findByIdRaza_Id(id);
         if (animals.isEmpty()){
