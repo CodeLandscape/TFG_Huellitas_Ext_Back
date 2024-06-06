@@ -49,15 +49,18 @@ public class RazaServiceImp implements RazaService{
         } else {
             animals.forEach(animal -> {
                 ImagenAnimal imagenes = imagenAnimalRepository.findByIdAnimal_Id(animal.getId());
-                imagenAnimalRepository.delete(imagenes);
+                if (imagenes != null) {
+                    imagenAnimalRepository.delete(imagenes);
+                }
                 animalPersonaRepository.deleteByIdAnimal_Id(animal.getId());
                 DocumentoAnimal documento = documentoAnimalRepository.findByIdAnimal_Id(animal.getId());
-                documentoAnimalRepository.delete(documento);
+                if (documento != null) {
+                    documentoAnimalRepository.delete(documento);
+                }
                 animalRepository.delete(animal);
             });
             razaRepository.deleteById(id);
         }
-
     }
 
     @Override
