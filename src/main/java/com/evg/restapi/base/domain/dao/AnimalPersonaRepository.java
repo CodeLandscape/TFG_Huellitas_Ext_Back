@@ -15,4 +15,6 @@ public interface AnimalPersonaRepository extends JpaRepository<AnimalPersona, An
     List<AnimalPersona> findByIdPersona_Id(Integer idPersona);
 
     List<AnimalPersona> findByIdAnimal_IdAsociacion(Asociacion idAsociacion);
+
+    void deleteByIdAnimal_Id(Integer id);
 }

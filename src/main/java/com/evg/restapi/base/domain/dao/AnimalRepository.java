@@ -14,4 +14,6 @@ public interface AnimalRepository extends JpaRepository<Animal, Integer> {
     Page<Animal> findAll(Specification<Animal> specification, Pageable pageable);
     List<Animal> findByIdAsociacion_Id(Integer idAsociacion);
 
+    List<Animal> findByIdRaza_Id(Integer idRaza);
+
 }

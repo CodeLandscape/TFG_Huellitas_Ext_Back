@@ -1,8 +1,9 @@
 package com.evg.restapi.base.domain.services;
 
-import com.evg.restapi.base.domain.dao.RazaRepository;
-import com.evg.restapi.base.domain.dao.TipoAnimalRepository;
+import com.evg.restapi.base.domain.dao.*;
 import com.evg.restapi.base.domain.dto.RazaDto;
+import com.evg.restapi.base.domain.entity.Animal;
+import com.evg.restapi.base.domain.entity.ImagenAnimal;
 import com.evg.restapi.base.domain.entity.Raza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,15 @@ public class RazaServiceImp implements RazaService{
     private RazaRepository razaRepository;
     @Autowired
     private TipoAnimalRepository tipoAnimalRepository;
+    @Autowired
+    private AnimalPersonaRepository animalPersonaRepository;
+    @Autowired
+    private AnimalRepository animalRepository;
+    @Autowired
+    private ImagenAnimalRepository imagenAnimalRepository;
+    @Autowired
+    private DocumentoAnimalRepository documentoAnimalRepository;
+
     @Override
     public Raza addRaza(RazaDto razaDto ) {
         Raza raza = razaDto.toEntity();
@@ -25,7 +35,25 @@ public class RazaServiceImp implements RazaService{
 
     @Override
     public void deleteRaza(Integer id) {
-        razaRepository.deleteById(id);
+        List<Animal> animals = animalRepository.findByIdRaza_Id(id);
+        if (animals.isEmpty()){
+            razaRepository.deleteById(id);
+            return;
+        }
+        boolean animalesDesactivados = animals.stream().allMatch(animal -> animal.getActivo().equals(0));
+        if (!animalesDesactivados) {
+            throw new RuntimeException("No se pueden eliminar razas con animales activos");
+        } else {
+            animals.forEach(animal -> {
+                List<ImagenAnimal> imagenes = imagenAnimalRepository.findByIdAnimal_Id(animal.getId());
+                imagenes.forEach(imagen -> imagenAnimalRepository.delete(imagen));
+                animalPersonaRepository.deleteByIdAnimal_Id(animal.getId());
+                documentoAnimalRepository.deleteByIdAnimal_Id(animal.getId());
+                animalRepository.delete(animal);
+            });
+            razaRepository.deleteById(id);
+        }
+
     }
 
     @Override
