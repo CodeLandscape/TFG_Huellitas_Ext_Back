@@ -45,8 +45,8 @@ public class RazaServiceImp implements RazaService{
             throw new RuntimeException("No se pueden eliminar razas con animales activos");
         } else {
             animals.forEach(animal -> {
-                List<ImagenAnimal> imagenes = imagenAnimalRepository.findByIdAnimal_Id(animal.getId());
-                imagenes.forEach(imagen -> imagenAnimalRepository.delete(imagen));
+                ImagenAnimal imagenes = imagenAnimalRepository.findByIdAnimal_Id(animal.getId());
+                imagenAnimalRepository.delete(imagenes);
                 animalPersonaRepository.deleteByIdAnimal_Id(animal.getId());
                 documentoAnimalRepository.deleteByIdAnimal_Id(animal.getId());
                 animalRepository.delete(animal);
