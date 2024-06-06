@@ -3,6 +3,7 @@ package com.evg.restapi.base.domain.services;
 import com.evg.restapi.base.domain.dao.*;
 import com.evg.restapi.base.domain.dto.RazaDto;
 import com.evg.restapi.base.domain.entity.Animal;
+import com.evg.restapi.base.domain.entity.DocumentoAnimal;
 import com.evg.restapi.base.domain.entity.ImagenAnimal;
 import com.evg.restapi.base.domain.entity.Raza;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,8 @@ public class RazaServiceImp implements RazaService{
                 ImagenAnimal imagenes = imagenAnimalRepository.findByIdAnimal_Id(animal.getId());
                 imagenAnimalRepository.delete(imagenes);
                 animalPersonaRepository.deleteByIdAnimal_Id(animal.getId());
-                documentoAnimalRepository.deleteByIdAnimal(animal);
+                DocumentoAnimal documento = documentoAnimalRepository.findByIdAnimal_Id(animal.getId());
+                documentoAnimalRepository.delete(documento);
                 animalRepository.delete(animal);
             });
             razaRepository.deleteById(id);

@@ -9,4 +9,6 @@ public interface DocumentoAnimalRepository extends JpaRepository<DocumentoAnimal
     DocumentoAnimal[] findAllByIdAnimal(Animal animal);
 
     void deleteByIdAnimal(Animal animal);
+
+    DocumentoAnimal findByIdAnimal_Id(Integer id);
 }
