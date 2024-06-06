@@ -40,7 +40,7 @@ public class RazaServiceImp implements RazaService{
             razaRepository.deleteById(id);
             return;
         }
-        boolean animalesDesactivados = animals.stream().allMatch(animal -> animal.getActivo().equals(0));
+        boolean animalesDesactivados = animals.stream().allMatch(animal -> animal.getActivo().equals(false));
         if (!animalesDesactivados) {
             throw new RuntimeException("No se pueden eliminar razas con animales activos");
         } else {
